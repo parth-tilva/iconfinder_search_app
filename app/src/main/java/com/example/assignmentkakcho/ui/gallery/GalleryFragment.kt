@@ -29,6 +29,7 @@ import com.example.assignmentkakcho.data.Icon
 import com.example.assignmentkakcho.databinding.FragmentGalleryBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import java.io.File
 
@@ -114,6 +115,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
 
     @SuppressLint("Range")
     private fun downloadImage(icon: Icon) {
+        Toast.makeText(context, "Downloading...", Toast.LENGTH_SHORT).show()
         val downloadManager = context?.getSystemService(DOWNLOAD_SERVICE) as DownloadManager
 
         val index = icon.raster_sizes.size - 1
@@ -131,7 +133,6 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
                     File.separator + icon.icon_id.toString() + "_" + icon.tags[0] + ".png"
                 )
             downloadManager.enqueue(request)
-            Toast.makeText(context, "Downloading...", Toast.LENGTH_SHORT).show()
 
         } catch (e: Exception) {
             Toast.makeText(context, "error: $e", Toast.LENGTH_LONG).show()
@@ -156,6 +157,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
                     DownloadManager.STATUS_FAILED -> "Download failed"
                     else -> ""
                 }
+                delay(1000L)
 
                 Log.e("DownloadManager", " Status is :$msg")
                 if (msg != lastMsg) {
