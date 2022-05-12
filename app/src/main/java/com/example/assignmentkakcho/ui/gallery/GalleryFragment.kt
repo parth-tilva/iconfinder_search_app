@@ -113,7 +113,6 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
     }
 
 
-    @SuppressLint("Range")
     private fun downloadImage(icon: Icon) {
         Toast.makeText(context, "Downloading...", Toast.LENGTH_SHORT).show()
         val downloadManager = context?.getSystemService(DOWNLOAD_SERVICE) as DownloadManager
@@ -138,7 +137,6 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
             Toast.makeText(context, "error: $e", Toast.LENGTH_LONG).show()
         }
 
-        downloadID = downloadManager.enqueue(request)
         val query = DownloadManager.Query().setFilterById(downloadID)
 
         lifecycleScope.launchWhenStarted {
