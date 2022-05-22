@@ -9,10 +9,6 @@ plugins {
 
 
 
-def localPropertiesFile = rootProject.file("local.properties")
-def localProperties = new Properties()
-localProperties.load(new FileInputStream(localPropertiesFile))
-
 
 android {
     compileSdk 31
@@ -24,10 +20,7 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
-
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "ICONFINDER_API_KEY", localProperties['iconfinder_api_key'])
     }
 
     buildTypes {
