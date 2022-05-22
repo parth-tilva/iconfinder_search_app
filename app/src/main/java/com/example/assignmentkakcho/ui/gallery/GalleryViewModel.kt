@@ -2,7 +2,8 @@ package com.example.assignmentkakcho.ui.gallery
 
 import androidx.lifecycle.*
 import androidx.paging.cachedIn
-import com.example.assignmentkakcho.data.IconfinderRepository
+import com.example.assignmentkakcho.data.Repository.IconfinderRepository
+import com.example.assignmentkakcho.data.model.Icon
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -16,6 +17,8 @@ class GalleryViewModel @Inject constructor(
     val photos = currentQuery.switchMap { queryString ->
         repository.getSearchResults(queryString).cachedIn(viewModelScope)
     }
+
+    var currentIcon:Icon? = null
 
     fun searchPhotos(query: String) {
         currentQuery.value = query

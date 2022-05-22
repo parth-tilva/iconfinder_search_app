@@ -8,5 +8,13 @@
     <fragment
         android:id="@+id/galleryFragment"
         android:name="com.example.assignmentkakcho.ui.gallery.GalleryFragment"
-        android:label=" ICONFINDER" />
+        android:label=" ICONFINDER" >
+        <action
+            android:id="@+id/action_galleryFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.example.assignmentkakcho.ui.category.CategoryFragment"
+        android:label="CategoryFragment" />
 </navigation>

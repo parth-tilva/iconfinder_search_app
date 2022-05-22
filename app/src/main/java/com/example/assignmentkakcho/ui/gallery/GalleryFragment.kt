@@ -21,12 +21,16 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.example.assignmentkakcho.R
-import com.example.assignmentkakcho.data.Icon
+import com.example.assignmentkakcho.data.model.Icon
 import com.example.assignmentkakcho.databinding.FragmentGalleryBinding
+import com.example.assignmentkakcho.ui.download.DownloadBottomSheet
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -38,6 +42,7 @@ import java.io.File
 class GalleryFragment : Fragment(R.layout.fragment_gallery),
     IconAdapter.OnItemClickListener {
 
+    val TAG = "GalleryFragment"
     private val viewModel by viewModels<GalleryViewModel>()
     var downloadID: Long = 0
 
@@ -193,16 +198,27 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
         })
     }
 
+    override fun onItemClick(icon: Icon) {
+        val action = GalleryFragmentDirections.actionGalleryFragmentToCategoryFragment()
+        findNavController().navigate(action)
+    }
+
     override fun onDownloadClicked(icon: Icon) {
-        if (writePermissionGranted) {
-            downloadImage(icon)
-        } else {
-            Toast.makeText(
-                requireContext(),
-                "Can't download photo allow permission from settings",
-                Toast.LENGTH_LONG
-            ).show()
+        viewModel.currentIcon = icon
+        if(viewModel.currentIcon!=null){
+            Log.d(TAG,"curreint icon gallery icon: ${viewModel.currentIcon}")
+            val bottomSheet = DownloadBottomSheet(icon)
+            bottomSheet.show(parentFragmentManager,"xyz")
         }
+//        if (writePermissionGranted) {
+//            downloadImage(icon)
+//        } else {
+//            Toast.makeText(
+//                requireContext(),
+//                "Can't download photo allow permission from settings",
+//                Toast.LENGTH_LONG
+//            ).show()
+//        }
     }
 
     override fun onDestroyView() {

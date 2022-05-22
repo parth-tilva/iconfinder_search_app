@@ -1,17 +1,17 @@
 package com.example.assignmentkakcho.data
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.assignmentkakcho.api.IconfinderApi
+import com.example.assignmentkakcho.data.model.Icon
 import retrofit2.HttpException
 import java.io.IOException
 
 
 private const val UNSPLASH_STARTING_PAGE_INDEX = 1
-const val NETWORK_PAGE_SIZE = 25
+private const val NETWORK_PAGE_SIZE = 25
 
-class PagingSource(
+class SearchPagingSource(
     private val iconfinderApi: IconfinderApi,
     private val query: String
 ) : PagingSource<Int, Icon>() {

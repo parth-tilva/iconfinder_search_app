@@ -1,6 +1,5 @@
 package com.example.assignmentkakcho.api
 
-import com.example.assignmentkakcho.BuildConfig
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
@@ -18,6 +17,22 @@ interface IconfinderApi {
         @Query("query") query: String,
         @Query("count") count: Int,
         @Query("offset") page: Int,
-    ): ApiResponse
+    ): SearchResponse
+
+
+    @Headers("Accept: application/json", "Authorization: Bearer $CLIENT_ID")
+    @GET("categories")
+    suspend fun getCategories(
+        @Query("count") count: Int,
+        @Query("after") afterIdentifier: String?,
+    ): CategoriesResponse
+
+    @Headers("Accept: application/json", "Authorization: Bearer $CLIENT_ID")
+    @GET("categories")
+    suspend fun getIconSets(
+        @Query("count") count: Int,
+        @Query("after") afterIdentifier: String?,
+    ): CategoriesResponse
+
 
 }

@@ -1,7 +1,4 @@
-package com.example.assignmentkakcho.data
-
-import android.os.Parcelable
-
+package com.example.assignmentkakcho.data.model
 
 
 data class Icon(
