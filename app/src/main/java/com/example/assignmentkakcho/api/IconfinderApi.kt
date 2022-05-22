@@ -9,7 +9,7 @@ import retrofit2.http.Query
 interface IconfinderApi {
     companion object {
         const val BASE_URL = "https://api.iconfinder.com/v4/"
-        const val CLIENT_ID = BuildConfig.ICONFINDER_API_KEY
+        const val CLIENT_ID = "TjvjWYVYynw2O0Ek1OQtfr4Hbo0znyJNxVBJ0MKCZhwqR5LlYcuchNcLh4DHbF06"
     }
 
     @Headers("Accept: application/json", "Authorization: Bearer $CLIENT_ID")

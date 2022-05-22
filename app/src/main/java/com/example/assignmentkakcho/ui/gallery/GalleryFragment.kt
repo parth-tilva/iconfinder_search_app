@@ -132,15 +132,13 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
                     Environment.DIRECTORY_PICTURES,
                     File.separator + icon.icon_id.toString() + "_" + icon.tags[0] + ".png"
                 )
-            downloadManager.enqueue(request)
+            downloadID = downloadManager.enqueue(request)
 
         } catch (e: Exception) {
             Toast.makeText(context, "error: $e", Toast.LENGTH_LONG).show()
         }
 
-        downloadID = downloadManager.enqueue(request)
         val query = DownloadManager.Query().setFilterById(downloadID)
-
         lifecycleScope.launchWhenStarted {
             var lastMsg = ""
             var downloading = true
@@ -158,7 +156,6 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
                     else -> ""
                 }
                 delay(1000L)
-
                 Log.e("DownloadManager", " Status is :$msg")
                 if (msg != lastMsg) {
                     withContext(Dispatchers.Main) {
@@ -176,7 +173,6 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
         super.onCreateOptionsMenu(menu, inflater)
 
         inflater.inflate(R.menu.serach_menu, menu)
-
         val searchItem = menu.findItem(R.id.action_serach)
         val searchView = searchItem.actionView as SearchView
 
