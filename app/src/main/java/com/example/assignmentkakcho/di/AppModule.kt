@@ -26,4 +26,5 @@ object AppModule {
     @Singleton
     fun provideUnsplashApi(retrofit: Retrofit): IconfinderApi =
         retrofit.create(IconfinderApi::class.java)
+
 }
