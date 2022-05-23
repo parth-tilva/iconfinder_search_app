@@ -23,11 +23,13 @@ class CategoryAdapter(private val listener: OnItemClickListener):
         return CategoryViewHolder(view)
     }
 
-
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         val category = getItem(position)
         if (category != null) {
             holder.tvName.text = category.name
+            holder.itemView.setOnClickListener {
+                listener.onItemClick(category)
+            }
         }
     }
 
@@ -42,7 +44,7 @@ class CategoryAdapter(private val listener: OnItemClickListener):
     }
 
     interface OnItemClickListener {
-         fun onItemClick()
+         fun onItemClick(category: Category)
     }
 
 

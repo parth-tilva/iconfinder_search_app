@@ -4,44 +4,44 @@ import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.assignmentkakcho.api.IconfinderApi
-import com.example.assignmentkakcho.data.model.Category
-import retrofit2.HttpException
+import com.example.assignmentkakcho.data.model.temp.IconsetX
 import java.io.IOException
 
 
 private const val UNSPLASH_STARTING_PAGE_INDEX = 1
 private const val NETWORK_PAGE_SIZE = 25
-private const val TAG = "CategoriesPaging"
+private const val TAG = "iconsetPaging"
 
-class CategoriesPagingSource(
+class IconSetPagingSource(
     private val iconfinderApi: IconfinderApi,
-) : PagingSource<Int, Category>() {
-    var lastCategory: String? = null
+    private val identifier:String,
+) : PagingSource<Int, IconsetX>() {
+    var lastIconSet: String? = null
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Category> {
+    override suspend fun load(params: LoadParams<Int>): PagingSource.LoadResult<Int, IconsetX> {
 
         val position = params.key ?: UNSPLASH_STARTING_PAGE_INDEX
 
         return try {
-            val response = iconfinderApi.getCategories(params.loadSize,lastCategory)
-            val  categories = response.categories
+            val response = iconfinderApi.getIconSets(identifier,params.loadSize,lastIconSet)
+            val  iconSets = response.body()?.iconsets
 
-            if(categories.isNotEmpty()){
-                lastCategory = categories[categories.lastIndex].identifier
-                Log.d(TAG,"lastIconSet $lastCategory")
+            if(iconSets!=null){
+                lastIconSet = iconSets[ic]   [categories.lastIndex].identifier
+                Log.d(TAG,"lastIconSet $lastIconSet")
             }
 
-            LoadResult.Page(
+            PagingSource.LoadResult.Page(
                 data = categories,
                 prevKey = if (position == UNSPLASH_STARTING_PAGE_INDEX) null else position - 1,
                 nextKey = if (categories.isEmpty()) null else position + 1
             )
         } catch (exception: IOException) {
-            LoadResult.Error(exception)
+            PagingSource.LoadResult.Error(exception)
         } catch (exception: HttpException) {
-            LoadResult.Error(exception)
+            PagingSource.LoadResult.Error(exception)
         } catch (e: Exception) {
-            LoadResult.Error(e)
+            PagingSource.LoadResult.Error(e)
         }
     }
 

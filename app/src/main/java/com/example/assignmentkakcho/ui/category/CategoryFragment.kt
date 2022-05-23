@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.paging.LoadState
 import com.example.assignmentkakcho.R
+import com.example.assignmentkakcho.data.model.Category
 import com.example.assignmentkakcho.databinding.FragmentCategoryBinding
 import com.example.assignmentkakcho.databinding.FragmentGalleryBinding
 import com.example.assignmentkakcho.ui.gallery.GalleryViewModel
@@ -76,7 +77,9 @@ class CategoryFragment : Fragment(), CategoryAdapter.OnItemClickListener {
 
     }
 
-    override fun onItemClick() {
+    override fun onItemClick(category: Category) {
+        viewModel.getIconSets(category.identifier)
 
     }
+
 }
