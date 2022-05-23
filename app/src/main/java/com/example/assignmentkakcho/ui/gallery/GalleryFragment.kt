@@ -30,11 +30,14 @@ import androidx.paging.LoadState
 import com.example.assignmentkakcho.R
 import com.example.assignmentkakcho.data.model.Icon
 import com.example.assignmentkakcho.databinding.FragmentGalleryBinding
+import com.example.assignmentkakcho.ui.download.DownloadAdapter
 import com.example.assignmentkakcho.ui.download.DownloadBottomSheet
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -42,7 +45,7 @@ import java.io.File
 
 @AndroidEntryPoint
 class GalleryFragment : Fragment(R.layout.fragment_gallery),
-    IconAdapter.OnItemClickListener {
+    IconAdapter.OnItemClickListener{  //, DownloadAdapter.OnItemClicked
 
     val TAG = "GalleryFragment"
     private val viewModel: GalleryViewModel by activityViewModels()
@@ -105,6 +108,20 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
         }
 
         setHasOptionsMenu(true)
+        downloadUpdates()
+
+    }
+
+    private fun downloadUpdates(){
+        lifecycleScope.launchWhenStarted {
+            viewModel.sharedMsg.collectLatest {
+                Snackbar.make(
+                    binding.root,
+                    it,
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 
 
@@ -126,9 +143,9 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
     }
 
 
-    @SuppressLint("Range")
     private fun downloadImage(icon: Icon) {
-
+        val bottomSheet = DownloadBottomSheet()
+        bottomSheet.show(parentFragmentManager,"xyz")
     }
 
 
@@ -165,10 +182,6 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
 
         viewModel.currentIcon = icon
 
-        val bottomSheet = DownloadBottomSheet()
-        bottomSheet.show(parentFragmentManager,"xyz")
-
-
         if (writePermissionGranted) {
             downloadImage(icon)
         } else {
@@ -189,4 +202,5 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
         super.onDestroyView()
         _binding = null
     }
+
 }
