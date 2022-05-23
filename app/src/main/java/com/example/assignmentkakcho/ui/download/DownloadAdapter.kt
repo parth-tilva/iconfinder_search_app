@@ -16,7 +16,7 @@ import com.example.assignmentkakcho.ui.download.DownloadAdapter.*
 import com.example.assignmentkakcho.ui.gallery.GalleryViewModel
 
 const val TAG = "DownloadAdapter"
-class DownloadAdapter(val context: Context, val icon: Icon): RecyclerView.Adapter<DownloadViewHolder>() {
+class DownloadAdapter(val context: Context, val icon: Icon, val listener: OnItemClicked): RecyclerView.Adapter<DownloadViewHolder>() {
     private val list = icon.raster_sizes
 
     class  DownloadViewHolder(val view: View): RecyclerView.ViewHolder(view){
@@ -39,8 +39,9 @@ class DownloadAdapter(val context: Context, val icon: Icon): RecyclerView.Adapte
         holder.tvQuality.text = "Size: $size ✖ $size "
         holder.tvFormat.text = "Format: $format"
         holder.itemView.setOnClickListener {
-            holder.constraintL.background = ContextCompat.getDrawable(context,R.drawable.selected_border)
+            listener.onItemClicked(position)
         }
+
     }
 
     override fun getItemCount(): Int {
@@ -49,8 +50,8 @@ class DownloadAdapter(val context: Context, val icon: Icon): RecyclerView.Adapte
 
     }
 
-//    interface OnItemClicked{
-//        fun onItemClicked()
-//    }
+    interface OnItemClicked{
+        fun onItemClicked(position: Int)
+    }
 
 }

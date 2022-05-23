@@ -17,7 +17,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DownloadBottomSheet() : BottomSheetDialogFragment() {
+class DownloadBottomSheet() : BottomSheetDialogFragment(), DownloadAdapter.OnItemClicked {
      val TAG ="bottomSheet"
     private val galleryViewModel: GalleryViewModel by activityViewModels()
     lateinit var binding: FragmentDownloadBottomSheetBinding
@@ -35,6 +35,10 @@ class DownloadBottomSheet() : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val icon = galleryViewModel.currentIcon
-            binding.rvQualities.adapter = DownloadAdapter(requireContext(),icon)
+            binding.rvQualities.adapter = DownloadAdapter(requireContext(),icon,this)
+    }
+
+    override fun onItemClicked(position: Int) {
+
     }
 }

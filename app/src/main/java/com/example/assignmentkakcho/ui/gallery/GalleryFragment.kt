@@ -62,9 +62,10 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
             registerForActivityResult(ActivityResultContracts.RequestPermission()) {
                 writePermissionGranted = it
             }
-        updateRequestPermission()
 
         super.onViewCreated(view, savedInstanceState)
+
+        updateRequestPermission()
 
         _binding = FragmentGalleryBinding.bind(view)
 
@@ -115,6 +116,10 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
 
         val minSDK29 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
         writePermissionGranted = hasWritePermission || minSDK29
+    }
+
+
+    private fun askPermission(){
         if (!writePermissionGranted) {
             permissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
@@ -123,57 +128,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
 
     @SuppressLint("Range")
     private fun downloadImage(icon: Icon) {
-        Toast.makeText(context, "Downloading...", Toast.LENGTH_SHORT).show()
-        val downloadManager = context?.getSystemService(DOWNLOAD_SERVICE) as DownloadManager
 
-        val index = icon.raster_sizes.size - 1
-        val urlString = icon.raster_sizes[index].formats[0].preview_url
-        lateinit var request: DownloadManager.Request
-        try {
-            request = DownloadManager.Request(Uri.parse(urlString))
-                .setDescription("Downloading...")
-                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                .setAllowedOverMetered(true)
-                .setAllowedOverRoaming(false)
-                .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE or DownloadManager.Request.NETWORK_WIFI)
-                .setDestinationInExternalPublicDir(
-                    Environment.DIRECTORY_PICTURES,
-                    File.separator + icon.icon_id.toString() + "_" + icon.tags[0] + ".png"
-                )
-            downloadID = downloadManager.enqueue(request)
-
-        } catch (e: Exception) {
-            Toast.makeText(context, "error: $e", Toast.LENGTH_LONG).show()
-        }
-
-        val query = DownloadManager.Query().setFilterById(downloadID)
-        lifecycleScope.launchWhenStarted {
-            var lastMsg = ""
-            var downloading = true
-            while (downloading) {
-                val cursor: Cursor = downloadManager.query(query)
-                cursor.moveToFirst()
-                if (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)) == DownloadManager.STATUS_SUCCESSFUL) {
-                    downloading = false
-                }
-                val status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
-
-                val msg = when (status) {
-                    DownloadManager.STATUS_SUCCESSFUL -> "Download successful"
-                    DownloadManager.STATUS_FAILED -> "Download failed"
-                    else -> ""
-                }
-                delay(1000L)
-                Log.e("DownloadManager", " Status is :$msg")
-                if (msg != lastMsg) {
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
-                    }
-                    lastMsg = msg
-                }
-                cursor.close()
-            }
-        }
     }
 
 
@@ -214,15 +169,20 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
         bottomSheet.show(parentFragmentManager,"xyz")
 
 
-//        if (writePermissionGranted) {
-//            downloadImage(icon)
-//        } else {
-//            Toast.makeText(
-//                requireContext(),
-//                "Can't download photo allow permission from settings",
-//                Toast.LENGTH_LONG
-//            ).show()
-//        }
+        if (writePermissionGranted) {
+            downloadImage(icon)
+        } else {
+            askPermission()
+            if(writePermissionGranted){
+                onDownloadClicked(icon)
+            }else{
+                Toast.makeText(
+                    requireContext(),
+                    "Can't download photo allow permission from settings",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
     }
 
     override fun onDestroyView() {
