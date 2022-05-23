@@ -18,7 +18,7 @@ class GalleryViewModel @Inject constructor(
         repository.getSearchResults(queryString).cachedIn(viewModelScope)
     }
 
-    var currentIcon:Icon? = null
+    lateinit var currentIcon:Icon
 
     fun searchPhotos(query: String) {
         currentQuery.value = query

@@ -10,14 +10,18 @@
         <entry key="..\:/Users/parth/OneDrive/Desktop/project_history/AssignmentKakcho/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.138" />
         <entry key="..\:/Users/parth/OneDrive/Desktop/project_history/AssignmentKakcho/app/src/main/res/drawable-v24/ic_search.xml" value="0.138" />
         <entry key="..\:/Users/parth/OneDrive/Desktop/project_history/AssignmentKakcho/app/src/main/res/drawable-v24/ic_user.xml" value="0.138" />
+        <entry key="..\:/Users/parth/OneDrive/Desktop/project_history/AssignmentKakcho/app/src/main/res/drawable/border.xml" value="0.162" />
         <entry key="..\:/Users/parth/OneDrive/Desktop/project_history/AssignmentKakcho/app/src/main/res/drawable/ic_launcher_background.xml" value="0.138" />
+        <entry key="..\:/Users/parth/OneDrive/Desktop/project_history/AssignmentKakcho/app/src/main/res/drawable/selected_border.xml" value="0.2285" />
         <entry key="..\:/Users/parth/OneDrive/Desktop/project_history/AssignmentKakcho/app/src/main/res/font/font.xml" value="0.25555555555555554" />
+        <entry key="..\:/Users/parth/OneDrive/Desktop/project_history/AssignmentKakcho/app/src/main/res/layout-v21/fragment_download_bottom_sheet.xml" value="0.24375" />
         <entry key="..\:/Users/parth/OneDrive/Desktop/project_history/AssignmentKakcho/app/src/main/res/layout/activity_main.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/parth/OneDrive/Desktop/project_history/AssignmentKakcho/app/src/main/res/layout/fragment_category.xml" value="0.24375" />
         <entry key="..\:/Users/parth/OneDrive/Desktop/project_history/AssignmentKakcho/app/src/main/res/layout/fragment_details.xml" value="0.2713541666666667" />
-        <entry key="..\:/Users/parth/OneDrive/Desktop/project_history/AssignmentKakcho/app/src/main/res/layout/fragment_download_bottom_sheet.xml" value="0.24375" />
+        <entry key="..\:/Users/parth/OneDrive/Desktop/project_history/AssignmentKakcho/app/src/main/res/layout/fragment_download_bottom_sheet.xml" value="0.4" />
         <entry key="..\:/Users/parth/OneDrive/Desktop/project_history/AssignmentKakcho/app/src/main/res/layout/fragment_gallery.xml" value="0.2713541666666667" />
         <entry key="..\:/Users/parth/OneDrive/Desktop/project_history/AssignmentKakcho/app/src/main/res/layout/icon_load_state_footer.xml" value="0.21296296296296297" />
+        <entry key="..\:/Users/parth/OneDrive/Desktop/project_history/AssignmentKakcho/app/src/main/res/layout/item_download.xml" value="0.6" />
         <entry key="..\:/Users/parth/OneDrive/Desktop/project_history/AssignmentKakcho/app/src/main/res/layout/item_icon.xml" value="0.2713541666666667" />
         <entry key="..\:/Users/parth/OneDrive/Desktop/project_history/AssignmentKakcho/app/src/main/res/layout/unsplash_photo_load_state_footer.xml" value="0.2713541666666667" />
         <entry key="..\:/Users/parth/OneDrive/Desktop/project_history/AssignmentKakcho/app/src/main/res/menu/serach_menu.xml" value="0.2713541666666667" />

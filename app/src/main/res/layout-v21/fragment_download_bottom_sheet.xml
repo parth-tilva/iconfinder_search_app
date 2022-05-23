@@ -10,6 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         tools:context=".ui.download.DownloadBottomSheet">
 
         <!-- TODO: Update blank fragment layout -->
@@ -17,10 +18,9 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="10dp"
             android:text="Download Qualities and Formats:"
-            android:textSize="24sp"
-            android:textStyle="bold"
+            android:textSize="18sp"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -36,8 +36,6 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
             tools:listitem="@layout/item_download" />
 
         <ProgressBar
@@ -52,28 +50,30 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />
 
-<!--        <Button-->
-<!--            android:id="@+id/buttonDownload"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Download"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            android:layout_marginEnd="10dp"-->
-<!--            app:layout_constraintEnd_toStartOf="@id/btnCancel"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/rvQualities"-->
-<!--            android:layout_marginRight="10dp" />-->
+        <Button
+            android:id="@+id/buttonDownload"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Download"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="@color/gray"
+            app:layout_constraintEnd_toStartOf="@id/btnCancel"
+            app:layout_constraintTop_toBottomOf="@+id/rvQualities"
+            android:layout_marginRight="10dp" />
 
-<!--        <Button-->
-<!--            android:id="@+id/btnCancel"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="cancel"-->
-<!--            android:layout_marginRight="10dp"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/buttonDownload"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/rvQualities" />-->
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="cancel"
+            android:backgroundTint="@color/gray"
+            android:layout_marginRight="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/buttonDownload"
+            app:layout_constraintTop_toBottomOf="@+id/rvQualities" />
 
 
 

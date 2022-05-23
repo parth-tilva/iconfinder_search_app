@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import com.example.assignmentkakcho.R
@@ -16,9 +17,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DownloadBottomSheet(val icon: Icon) : BottomSheetDialogFragment() {
+class DownloadBottomSheet() : BottomSheetDialogFragment() {
      val TAG ="bottomSheet"
-    private val viewModel by viewModels<GalleryViewModel>()
+    private val galleryViewModel: GalleryViewModel by activityViewModels()
     lateinit var binding: FragmentDownloadBottomSheetBinding
 
     override fun onCreateView(
@@ -33,8 +34,7 @@ class DownloadBottomSheet(val icon: Icon) : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.d(TAG,"currentIcon:${icon}")
-            binding.rvQualities.adapter = DownloadAdapter(icon)
-            binding.rvQualities.hasFixedSize()
+        val icon = galleryViewModel.currentIcon
+            binding.rvQualities.adapter = DownloadAdapter(requireContext(),icon)
     }
 }

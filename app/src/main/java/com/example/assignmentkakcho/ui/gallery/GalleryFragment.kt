@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -34,6 +35,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 
@@ -43,7 +45,8 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
     IconAdapter.OnItemClickListener {
 
     val TAG = "GalleryFragment"
-    private val viewModel by viewModels<GalleryViewModel>()
+    private val viewModel: GalleryViewModel by activityViewModels()
+
     var downloadID: Long = 0
 
     private var _binding: FragmentGalleryBinding? = null
@@ -204,12 +207,13 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
     }
 
     override fun onDownloadClicked(icon: Icon) {
+
         viewModel.currentIcon = icon
-        if(viewModel.currentIcon!=null){
-            Log.d(TAG,"curreint icon gallery icon: ${viewModel.currentIcon}")
-            val bottomSheet = DownloadBottomSheet(icon)
-            bottomSheet.show(parentFragmentManager,"xyz")
-        }
+
+        val bottomSheet = DownloadBottomSheet()
+        bottomSheet.show(parentFragmentManager,"xyz")
+
+
 //        if (writePermissionGranted) {
 //            downloadImage(icon)
 //        } else {
