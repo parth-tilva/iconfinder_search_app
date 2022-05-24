@@ -28,7 +28,7 @@ class CategoriesPagingSource(
 
             if(categories.isNotEmpty()){
                 lastCategory = categories[categories.lastIndex].identifier
-                Log.d(TAG,"lastIconSet $lastCategory")
+                Log.d(TAG,"lastIconSetId $lastCategory")
             }
 
             LoadResult.Page(

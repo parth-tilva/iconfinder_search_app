@@ -3,18 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
     android:label=" "
-    app:startDestination="@id/galleryFragment">
+    app:startDestination="@id/categoryFragment">
 
-    <fragment
-        android:id="@+id/galleryFragment"
-        android:name="com.example.assignmentkakcho.ui.gallery.GalleryFragment"
-        android:label=" ICONFINDER" >
-        <action
-            android:id="@+id/action_galleryFragment_to_categoryFragment"
-            app:destination="@id/categoryFragment" />
-    </fragment>
     <fragment
         android:id="@+id/categoryFragment"
         android:name="com.example.assignmentkakcho.ui.category.CategoryFragment"
-        android:label="CategoryFragment" />
+        android:label="CategoryFragment" >
+        <action
+            android:id="@+id/action_categoryFragment_to_iconSetFragment"
+            app:destination="@id/iconSetFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/iconSetFragment"
+        android:name="com.example.assignmentkakcho.ui.iconSet.IconSetFragment"
+        android:label="IconSetFragment" >
+        <argument
+            android:name="category_identifier"
+            app:argType="string" />
+    </fragment>
 </navigation>

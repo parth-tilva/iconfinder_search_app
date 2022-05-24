@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.example.assignmentkakcho.R
 import com.example.assignmentkakcho.data.model.Category
@@ -78,8 +79,9 @@ class CategoryFragment : Fragment(), CategoryAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(category: Category) {
-        viewModel.getIconSets(category.identifier)
-
+        //viewModel.getIconSets(category.identifier)
+        val action = CategoryFragmentDirections.actionCategoryFragmentToIconSetFragment(category.identifier)
+        findNavController().navigate(action)
     }
 
 }

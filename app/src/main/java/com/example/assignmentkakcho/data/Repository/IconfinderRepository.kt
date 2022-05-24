@@ -7,6 +7,7 @@ import androidx.paging.liveData
 import com.example.assignmentkakcho.api.IconfinderApi
 import com.example.assignmentkakcho.data.CategoriesPagingSource
 import com.example.assignmentkakcho.data.IconPagingSource
+import com.example.assignmentkakcho.data.IconSetPagingSource
 import com.example.assignmentkakcho.data.SearchPagingSource
 import com.example.assignmentkakcho.data.model.temp.IconSet
 import com.example.assignmentkakcho.data.model.temp.IconsetX
@@ -38,32 +39,42 @@ class IconfinderRepository @Inject constructor(private val iconfinderApi: Iconfi
             pagingSourceFactory = { CategoriesPagingSource(iconfinderApi) }
         ).liveData
 
-    suspend fun getIconSets(identifier: String):Resource<IconSet>{
-        return try{
-            val response = iconfinderApi.getIconSets(identifier,100,null)
-            val result = response.body()
-            if(response.isSuccessful && result!=null){
-                Resource.Success(result)
-            }else{
-                Resource.Failure(response.message() ?: "response null",null)
-            }
-
-        } catch (e: IOException){
-            Resource.Failure(e.message?: " an error occurred",null)
-        } catch (e: HttpException){
-            Resource.Failure(e.message?: " an error occurred",null)
-        } catch (e: Exception) {
-            Resource.Failure(e.message ?: " an error occurred", null)
-        }
-    }
-
-    fun getIconsResults(iconSet: List<IconsetX>) =
+    fun getIconSets(category: String) =
         Pager(
             config = PagingConfig(
-                pageSize = 25,
+                pageSize = 4,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { IconPagingSource(iconfinderApi, iconSet) }
+            pagingSourceFactory = { IconSetPagingSource(iconfinderApi,category) }
+        ).liveData
+
+
+//    suspend fun getIconSets(identifier: String):Resource<IconSet>{
+//        return try{
+//            val response = iconfinderApi.getIconSets(identifier,100,null)
+//            val result = response.body()
+//            if(response.isSuccessful && result!=null){
+//                Resource.Success(result)
+//            }else{
+//                Resource.Failure(response.message() ?: "response null",null)
+//            }
+//
+//        } catch (e: IOException){
+//            Resource.Failure(e.message?: " an error occurred",null)
+//        } catch (e: HttpException){
+//            Resource.Failure(e.message?: " an error occurred",null)
+//        } catch (e: Exception) {
+//            Resource.Failure(e.message ?: " an error occurred", null)
+//        }
+//    }
+
+    fun getIconsResults(iconSetId: Int) =
+        Pager(
+            config = PagingConfig(
+                pageSize = 10,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { IconPagingSource(iconfinderApi, iconSetId) }
         ).liveData
 
 }

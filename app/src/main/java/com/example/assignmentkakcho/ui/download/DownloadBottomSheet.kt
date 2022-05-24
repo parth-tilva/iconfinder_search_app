@@ -13,7 +13,6 @@ import androidx.lifecycle.lifecycleScope
 import com.example.assignmentkakcho.R
 import com.example.assignmentkakcho.data.model.Icon
 import com.example.assignmentkakcho.databinding.FragmentDownloadBottomSheetBinding
-import com.example.assignmentkakcho.ui.gallery.GalleryFragment
 import com.example.assignmentkakcho.ui.gallery.GalleryViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint

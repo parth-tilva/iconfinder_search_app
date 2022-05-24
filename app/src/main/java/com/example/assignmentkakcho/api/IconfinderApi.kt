@@ -37,7 +37,7 @@ interface IconfinderApi {
         @Path("category_identifier") identifier: String,
         @Query("count") count: Int,
         @Query("after") afterIdentifier: String?,
-    ): Response<IconSet>
+    ): IconSet
 
 
     @Headers("Accept: application/json", "Authorization: Bearer $CLIENT_ID")

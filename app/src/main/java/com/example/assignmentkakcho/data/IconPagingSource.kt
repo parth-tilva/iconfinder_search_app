@@ -11,11 +11,11 @@ import java.io.IOException
 
 
 private const val UNSPLASH_STARTING_PAGE_INDEX = 1
-private const val NETWORK_PAGE_SIZE = 25
+private const val NETWORK_PAGE_SIZE = 10
 
 class IconPagingSource(
     private val iconfinderApi: IconfinderApi,
-    private val iconSet: List<IconsetX>
+    private val iconSetId: Int
 ) : PagingSource<Int, Icon>() {
 
     var setPos = 0;
@@ -25,11 +25,11 @@ class IconPagingSource(
         val offset = if (params.key != null) ((position - 1) * NETWORK_PAGE_SIZE) else 0 // 1
 
         return try {
-            val response = iconfinderApi.getIconFromIconSet(iconSet[setPos].iconset_id, NETWORK_PAGE_SIZE, offset)
+            val response = iconfinderApi.getIconFromIconSet(iconSetId, NETWORK_PAGE_SIZE, offset)
             val photos = response.icons
 
             val nextKey = if (photos.isEmpty()) {
-                setPos++
+                null
             } else {
                 position + (params.loadSize / NETWORK_PAGE_SIZE)
             }

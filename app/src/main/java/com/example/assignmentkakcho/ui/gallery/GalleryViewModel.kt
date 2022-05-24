@@ -10,10 +10,12 @@ import android.os.Environment
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.*
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.assignmentkakcho.IconfinderApplication
 import com.example.assignmentkakcho.data.Repository.IconfinderRepository
 import com.example.assignmentkakcho.data.model.Icon
+import com.example.assignmentkakcho.data.model.temp.IconsetX
 import com.example.assignmentkakcho.ui.download.DownloadAdapter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -42,6 +44,10 @@ class GalleryViewModel @Inject constructor(
 
     val photos = currentQuery.switchMap { queryString ->
         repository.getSearchResults(queryString).cachedIn(viewModelScope)
+    }
+
+    fun getIconsInIconSet(iconSetId: Int ):LiveData<PagingData<Icon>>{
+        return repository.getIconsResults(iconSetId)
     }
 
     lateinit var currentIcon:Icon
