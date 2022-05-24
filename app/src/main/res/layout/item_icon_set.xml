@@ -9,7 +9,7 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="160dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         app:cardCornerRadius="10dp"
@@ -43,7 +43,7 @@
 
 
             <TextView
-                android:id="@+id/tvIconCount"
+                android:id="@+id/tvIconsCount"
                 android:textSize="16dp"
                 android:text="count: 50"
                 android:layout_width="0dp"

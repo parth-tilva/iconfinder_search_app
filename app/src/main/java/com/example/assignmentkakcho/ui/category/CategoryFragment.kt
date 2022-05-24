@@ -79,7 +79,6 @@ class CategoryFragment : Fragment(), CategoryAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(category: Category) {
-        //viewModel.getIconSets(category.identifier)
         val action = CategoryFragmentDirections.actionCategoryFragmentToIconSetFragment(category.identifier)
         findNavController().navigate(action)
     }

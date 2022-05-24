@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/categoryFragment"
         android:name="com.example.assignmentkakcho.ui.category.CategoryFragment"
-        android:label="CategoryFragment" >
+        android:label="ICONFINDER">
         <action
             android:id="@+id/action_categoryFragment_to_iconSetFragment"
             app:destination="@id/iconSetFragment" />
@@ -20,5 +20,16 @@
         <argument
             android:name="category_identifier"
             app:argType="string" />
+        <action
+            android:id="@+id/action_iconSetFragment_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="com.example.assignmentkakcho.ui.gallery.GalleryFragment"
+        android:label="Gallery" >
+        <argument
+            android:name="iconSetId"
+            app:argType="integer" />
     </fragment>
 </navigation>

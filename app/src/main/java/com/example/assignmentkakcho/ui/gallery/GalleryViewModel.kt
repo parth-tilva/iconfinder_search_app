@@ -106,11 +106,7 @@ class GalleryViewModel @Inject constructor(
                     }
                     cursor.close()
                 }
-
             }
         }
-
-
-
 
 }

@@ -13,24 +13,25 @@
         android:layout_marginBottom="10dp"
         tools:context=".ui.gallery.GalleryFragment">
 
-        <TextView
-            android:id="@+id/iconset_id"
-            android:text="id onf icon set"
-            android:textSize="20sp"
-            android:layout_marginLeft="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+<!--        <TextView-->
+<!--            android:id="@+id/iconset_id"-->
+<!--            android:text="id: 345334"-->
+<!--            android:textSize="20sp"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            />-->
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_below="@id/iconset_id"
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
             tools:listitem="@layout/item_icon" />
 
         <ProgressBar

@@ -1,5 +1,6 @@
 package com.example.assignmentkakcho.data
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.assignmentkakcho.api.IconfinderApi
@@ -16,20 +17,30 @@ class IconPagingSource(
     private val iconSetId: Int
 ) : PagingSource<Int, Icon>() {
 
+    val TAG = "IconPagin"
+
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Icon> {
         val position = params.key ?: UNSPLASH_STARTING_PAGE_INDEX
 
         val offset = if (params.key != null) ((position - 1) * NETWORK_PAGE_SIZE) else 0 // 1
 
         return try {
-            val response = iconfinderApi.getIconFromIconSet(iconSetId, NETWORK_PAGE_SIZE, offset)
+            //Log.d(TAG,"all params: iconsetId: $iconSetId, Loadsize: ${params.loadSize} , offset: $offset")
+                //offset of API not working tested from website
+            val response = iconfinderApi.getIconFromIconSet(iconSetId, 100, offset)
             val photos = response.icons
 
-            val nextKey = if (photos.isEmpty()) {
-                null
-            } else {
-                position + (params.loadSize / NETWORK_PAGE_SIZE)
+
+            for(icon in photos){
+                Log.d(TAG,"iconid ${icon.icon_id}")
             }
+
+            val nextKey = null//if (photos.size==0) {
+//                Log.d(TAG,"nextKey  null $photos")
+//                null
+//            } else {
+//                position + (params.loadSize / NETWORK_PAGE_SIZE)
+//            }
             LoadResult.Page(
                 data = photos,
                 prevKey = if (position == UNSPLASH_STARTING_PAGE_INDEX) null else position - 1,

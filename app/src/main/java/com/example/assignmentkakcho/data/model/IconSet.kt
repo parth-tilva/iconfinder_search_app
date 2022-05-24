@@ -1,14 +1,15 @@
 package com.example.assignmentkakcho.data.model
 
 data class IconSet(
-//    val are_all_icons_glyph: Boolean,
-//    //val categories: List<Category>,
-//    val icons_count: Int,
+    val are_all_icons_glyph: Boolean,
+    val author: Author,
+    val categories: List<Category>,
+    val icons_count: Int,
     val iconset_id: Int,
-//    val identifier: String,
-//    val is_premium: Boolean,
-//    val name: String,
-//    val prices: List<Price>,
-//    val published_at: String,
-//    val type: String
+    val identifier: String,
+    val is_premium: Boolean,
+    val name: String,
+    val prices: List<Price>,
+    val published_at: String,
+    val type: String
 )
