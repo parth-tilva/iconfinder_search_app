@@ -23,9 +23,15 @@ class IconSetFragment : Fragment(),  IconSetAdapter.OnItemClicked {
     lateinit var category: String
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         category = args.categoryIdentifier
+
+    }
+
+    override fun onResume() {
+        super.onResume()
         (activity as MainActivity?)?.let{
             it.supportActionBar?.title = category
             it.supportActionBar?.setDisplayShowHomeEnabled(false)

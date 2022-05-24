@@ -39,7 +39,6 @@ class DownloadAdapter(val context: Context, val icon: Icon, val listener: OnItem
         holder.tvQuality.text = "Size: $size ✖ $size "
         holder.tvFormat.text = "Format: $format"
         holder.itemView.setOnClickListener {
-            holder.itemView.background = context.getDrawable(R.drawable.selected_border)
             listener.onItemClicked(position)
         }
 

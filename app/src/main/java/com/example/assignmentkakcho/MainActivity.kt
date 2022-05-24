@@ -19,9 +19,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val actionBar: ActionBar? = supportActionBar
-        actionBar?.setDisplayShowHomeEnabled(true)
-        actionBar?.setIcon(R.drawable.iconfinder_logo_icon)
 
 
         val navHostFragment =

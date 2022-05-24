@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import com.example.assignmentkakcho.MainActivity
 import com.example.assignmentkakcho.R
 import com.example.assignmentkakcho.data.model.Category
 import com.example.assignmentkakcho.databinding.FragmentCategoryBinding
@@ -28,6 +29,15 @@ class CategoryFragment : Fragment(), CategoryAdapter.OnItemClickListener {
     private var _binding: FragmentCategoryBinding? = null
     private val binding get() = _binding!!
 
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity?)?.let{
+            it.supportActionBar?.setDisplayShowHomeEnabled(true)
+            it.supportActionBar?.setIcon(R.drawable.iconfinder_logo_icon)
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,8 +48,6 @@ class CategoryFragment : Fragment(), CategoryAdapter.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
         val adapter = CategoryAdapter(this)
 
 

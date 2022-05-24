@@ -45,8 +45,5 @@ class DownloadBottomSheet() : BottomSheetDialogFragment(), DownloadAdapter.OnIte
             galleryViewModel.download(galleryViewModel.currentIcon,position)
             dismiss()
         }
-
     }
-
-
 }

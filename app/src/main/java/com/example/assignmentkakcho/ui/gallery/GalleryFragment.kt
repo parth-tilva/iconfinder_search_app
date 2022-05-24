@@ -59,19 +59,12 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemC
     private var writePermissionGranted = false
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
 
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            (activity as MainActivity?)?.let{
-                it.supportActionBar?.setDisplayShowHomeEnabled(false)
-            }
-        }
-
-        override fun onResume() {
-            super.onResume()
-            (activity as MainActivity?)?.let{
-                it.supportActionBar?.setDisplayShowHomeEnabled(true)
-            }
-        }
+//        override fun onResume() {
+//            super.onResume()
+//            (activity as MainActivity?)?.let{
+//                it.supportActionBar?.setDisplayShowHomeEnabled(false)
+//            }
+//        }
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val iconSetId = args.iconSetId
