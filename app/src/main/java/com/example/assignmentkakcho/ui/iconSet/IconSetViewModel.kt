@@ -1,7 +1,7 @@
 package com.example.assignmentkakcho.ui.iconSet
 
 import androidx.lifecycle.ViewModel
-import com.example.assignmentkakcho.data.Repository.IconfinderRepository
+import com.example.assignmentkakcho.data.repository.IconfinderRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

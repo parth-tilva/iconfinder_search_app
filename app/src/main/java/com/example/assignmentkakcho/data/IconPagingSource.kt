@@ -4,21 +4,18 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.assignmentkakcho.api.IconfinderApi
 import com.example.assignmentkakcho.data.model.Icon
-import com.example.assignmentkakcho.data.model.temp.IconSet
-import com.example.assignmentkakcho.data.model.temp.IconsetX
 import retrofit2.HttpException
 import java.io.IOException
 
 
 private const val UNSPLASH_STARTING_PAGE_INDEX = 1
-private const val NETWORK_PAGE_SIZE = 10
+private const val NETWORK_PAGE_SIZE = 5
 
 class IconPagingSource(
     private val iconfinderApi: IconfinderApi,
     private val iconSetId: Int
 ) : PagingSource<Int, Icon>() {
 
-    var setPos = 0;
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Icon> {
         val position = params.key ?: UNSPLASH_STARTING_PAGE_INDEX
 

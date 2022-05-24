@@ -1,6 +1,6 @@
-package com.example.assignmentkakcho.data.model.temp
+package com.example.assignmentkakcho.data.model
 
-data class IconsetX(
+data class IconSet(
 //    val are_all_icons_glyph: Boolean,
 //    //val categories: List<Category>,
 //    val icons_count: Int,

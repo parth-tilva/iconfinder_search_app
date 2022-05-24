@@ -1,6 +1,5 @@
-package com.example.assignmentkakcho.data.Repository
+package com.example.assignmentkakcho.data.repository
 
-import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.liveData
@@ -9,11 +8,6 @@ import com.example.assignmentkakcho.data.CategoriesPagingSource
 import com.example.assignmentkakcho.data.IconPagingSource
 import com.example.assignmentkakcho.data.IconSetPagingSource
 import com.example.assignmentkakcho.data.SearchPagingSource
-import com.example.assignmentkakcho.data.model.temp.IconSet
-import com.example.assignmentkakcho.data.model.temp.IconsetX
-import com.example.assignmentkakcho.util.Resource
-import retrofit2.HttpException
-import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -42,14 +36,14 @@ class IconfinderRepository @Inject constructor(private val iconfinderApi: Iconfi
     fun getIconSets(category: String) =
         Pager(
             config = PagingConfig(
-                pageSize = 4,
+                pageSize = 8,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = { IconSetPagingSource(iconfinderApi,category) }
         ).liveData
 
 
-//    suspend fun getIconSets(identifier: String):Resource<IconSet>{
+//    suspend fun getIconSets(identifier: String):Resource<IconSetResponse>{
 //        return try{
 //            val response = iconfinderApi.getIconSets(identifier,100,null)
 //            val result = response.body()
@@ -71,7 +65,7 @@ class IconfinderRepository @Inject constructor(private val iconfinderApi: Iconfi
     fun getIconsResults(iconSetId: Int) =
         Pager(
             config = PagingConfig(
-                pageSize = 10,
+                pageSize = 5,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = { IconPagingSource(iconfinderApi, iconSetId) }

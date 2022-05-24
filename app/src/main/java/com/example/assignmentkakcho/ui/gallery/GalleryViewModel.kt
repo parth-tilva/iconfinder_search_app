@@ -8,25 +8,18 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Environment
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.assignmentkakcho.IconfinderApplication
-import com.example.assignmentkakcho.data.Repository.IconfinderRepository
+import com.example.assignmentkakcho.data.repository.IconfinderRepository
 import com.example.assignmentkakcho.data.model.Icon
-import com.example.assignmentkakcho.data.model.temp.IconsetX
-import com.example.assignmentkakcho.ui.download.DownloadAdapter
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.io.File
-import java.text.FieldPosition
 import javax.inject.Inject
-import kotlin.properties.Delegates
 
 
 @HiltViewModel

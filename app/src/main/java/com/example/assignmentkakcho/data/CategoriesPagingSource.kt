@@ -10,7 +10,6 @@ import java.io.IOException
 
 
 private const val UNSPLASH_STARTING_PAGE_INDEX = 1
-private const val NETWORK_PAGE_SIZE = 25
 private const val TAG = "CategoriesPaging"
 
 class CategoriesPagingSource(
@@ -28,7 +27,7 @@ class CategoriesPagingSource(
 
             if(categories.isNotEmpty()){
                 lastCategory = categories[categories.lastIndex].identifier
-                Log.d(TAG,"lastIconSetId $lastCategory")
+                Log.d(TAG,"lastcategory $lastCategory")
             }
 
             LoadResult.Page(

@@ -1,6 +1,6 @@
 package com.example.assignmentkakcho.data.model.temp
 
-data class IconSet(
-    val iconsets: List<IconsetX>,
+data class IconSetResponse(
+    val iconsets: List<Iconset>,
     val total_count: Int
 )
