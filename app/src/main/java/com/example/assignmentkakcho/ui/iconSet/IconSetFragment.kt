@@ -22,12 +22,10 @@ class IconSetFragment : Fragment(),  IconSetAdapter.OnItemClicked {
     private val args: IconSetFragmentArgs by navArgs()
     lateinit var category: String
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         category = args.categoryIdentifier
-
+        categoryViewModel.getIconSets(category)
     }
 
     override fun onResume() {
@@ -52,7 +50,7 @@ class IconSetFragment : Fragment(),  IconSetAdapter.OnItemClicked {
         val adapter = IconSetAdapter(this)
         binding.rvIconSet.adapter = adapter
         binding.rvIconSet.setHasFixedSize(true)
-        categoryViewModel.getIconSets(category).observe(viewLifecycleOwner, Observer {
+        categoryViewModel.iconSetList.observe(viewLifecycleOwner, Observer {
             adapter.submitData(viewLifecycleOwner.lifecycle,it)
         })
         adapter.addLoadStateListener { loadState ->
@@ -76,7 +74,7 @@ class IconSetFragment : Fragment(),  IconSetAdapter.OnItemClicked {
     }
 
     override fun onItemClicked(iconSet: IconSet) {
-        val action = IconSetFragmentDirections.actionIconSetFragmentToGalleryFragment(iconSet.iconset_id)
+        val action = IconSetFragmentDirections.actionIconSetFragmentToGalleryFragment(iconSet.iconset_id,"")
         findNavController().navigate(action)
     }
 

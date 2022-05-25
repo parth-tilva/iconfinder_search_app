@@ -1,5 +1,6 @@
 package com.example.assignmentkakcho.data
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.assignmentkakcho.api.IconfinderApi
@@ -10,6 +11,8 @@ import java.io.IOException
 
 private const val UNSPLASH_STARTING_PAGE_INDEX = 1
 private const val NETWORK_PAGE_SIZE = 25
+private const val TAG ="searchPaging"
+
 
 class SearchPagingSource(
     private val iconfinderApi: IconfinderApi,
@@ -17,6 +20,8 @@ class SearchPagingSource(
 ) : PagingSource<Int, Icon>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Icon> {
+        Log.d(TAG,"loading called")
+
         val position = params.key ?: UNSPLASH_STARTING_PAGE_INDEX
 
         val offset = if (params.key != null) ((position - 1) * NETWORK_PAGE_SIZE) else 0 // 1
@@ -25,6 +30,8 @@ class SearchPagingSource(
             val response = iconfinderApi.searchPhotos(query, NETWORK_PAGE_SIZE, offset)
             val photos = response.icons
 
+            Log.d(TAG,"loading search photo$query")
+            Log.d(TAG,"phots$photos")
             val nextKey = if (photos.isEmpty()) {
                 null
             } else {
@@ -43,7 +50,6 @@ class SearchPagingSource(
             LoadResult.Error(e)
         }
     }
-
     override fun getRefreshKey(state: PagingState<Int, Icon>): Int? {
         return null
     }

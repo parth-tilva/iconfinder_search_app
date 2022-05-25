@@ -10,6 +10,9 @@
         android:name="com.example.assignmentkakcho.ui.category.CategoryFragment"
         android:label="ICONFINDER">
         <action
+            android:id="@+id/action_categoryFragment_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
+        <action
             android:id="@+id/action_categoryFragment_to_iconSetFragment"
             app:destination="@id/iconSetFragment" />
     </fragment>
@@ -31,5 +34,8 @@
         <argument
             android:name="iconSetId"
             app:argType="integer" />
+        <argument
+            android:name="globalQuery"
+            app:argType="string" />
     </fragment>
 </navigation>

@@ -1,13 +1,14 @@
 package com.example.assignmentkakcho.ui.category
 
 import android.os.Bundle
+import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.example.assignmentkakcho.MainActivity
@@ -20,37 +21,53 @@ import com.example.assignmentkakcho.ui.gallery.IconAdapter
 import com.example.assignmentkakcho.ui.gallery.IconLoadStateAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 class CategoryFragment : Fragment(), CategoryAdapter.OnItemClickListener {
 
-    private val viewModel by viewModels<CategoryViewModel>()
+    val TAG ="categoryfragment"
+
+    private val viewModel:CategoryViewModel by activityViewModels()
 
     private var _binding: FragmentCategoryBinding? = null
     private val binding get() = _binding!!
-
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 
     override fun onResume() {
         super.onResume()
+        Log.d(TAG,"onresume called ")
         (activity as MainActivity?)?.let{
             it.supportActionBar?.setDisplayShowHomeEnabled(true)
             it.supportActionBar?.setIcon(R.drawable.iconfinder_logo_icon)
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d(TAG,"oncreat called ")
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.d(TAG,"oncreateview called ")
         _binding = FragmentCategoryBinding.inflate(inflater,container,false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d(TAG,"onviewcreated called ")
+
+        Log.d(TAG,"onviewcreated called ")
+
         val adapter = CategoryAdapter(this)
-
-
         binding.apply {
             rvCategories.setHasFixedSize(true)
             rvCategories.adapter = adapter.withLoadStateHeaderAndFooter(
@@ -59,11 +76,18 @@ class CategoryFragment : Fragment(), CategoryAdapter.OnItemClickListener {
             )
             btnRetry.setOnClickListener { adapter.retry() }
         }
+        Log.d(TAG,"onviewcreated called ")
+
         binding.rvCategories.adapter = adapter
 
-        viewModel.categoryList.observe(viewLifecycleOwner, Observer {
-            adapter.submitData(viewLifecycleOwner.lifecycle,it)
-        })
+        Log.d(TAG,"onviewcreated called  before observer")
+
+
+            viewModel.categoryList.observe(viewLifecycleOwner, Observer {
+                adapter.submitData(viewLifecycleOwner.lifecycle,it)
+            })
+
+        Log.d(TAG,"onviewcreated called  after observer")
 
         adapter.addLoadStateListener { loadState ->
             binding.apply {
@@ -83,7 +107,7 @@ class CategoryFragment : Fragment(), CategoryAdapter.OnItemClickListener {
                 }
             }
         }
-
+        setHasOptionsMenu(true)
     }
 
     override fun onItemClick(category: Category) {
@@ -91,4 +115,17 @@ class CategoryFragment : Fragment(), CategoryAdapter.OnItemClickListener {
         findNavController().navigate(action)
     }
 
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.search_icon, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == R.id.icon_search){
+            val action = CategoryFragmentDirections.actionCategoryFragmentToGalleryFragment(-1,"xyz")
+            findNavController().navigate(action)
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }

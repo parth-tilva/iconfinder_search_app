@@ -11,13 +11,14 @@ import java.io.IOException
 
 private const val UNSPLASH_STARTING_PAGE_INDEX = 1
 private const val NETWORK_PAGE_SIZE = 5
+private const val TAG = "IconPaging"
+
 
 class IconPagingSource(
     private val iconfinderApi: IconfinderApi,
     private val iconSetId: Int
 ) : PagingSource<Int, Icon>() {
 
-    val TAG = "IconPagin"
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Icon> {
         val position = params.key ?: UNSPLASH_STARTING_PAGE_INDEX

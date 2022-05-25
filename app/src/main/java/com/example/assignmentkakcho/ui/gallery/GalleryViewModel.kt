@@ -39,16 +39,23 @@ class GalleryViewModel @Inject constructor(
         repository.getSearchResults(queryString).cachedIn(viewModelScope)
     }
 
-    fun getIconsInIconSet(iconSetId: Int ):LiveData<PagingData<Icon>>{
+    fun searchPhotos(query: String) {
+        currentQuery.value = query
+    }
+
+    fun getIconsInIconSet(iconSetId: Int?,currentQuery: String?):LiveData<PagingData<Icon>>{
+        if(iconSetId==null){
+            Log.d(TAG,"getsearchcalled")
+            return repository.getSearchResults(currentQuery!!)
+        }
         return repository.getIconsResults(iconSetId)
     }
+
+
 
     lateinit var currentIcon:Icon
     var position =0
 
-    fun searchPhotos(query: String) {
-        currentQuery.value = query
-    }
 
     @SuppressLint("Range")
     fun download(icon: Icon, position: Int) {
