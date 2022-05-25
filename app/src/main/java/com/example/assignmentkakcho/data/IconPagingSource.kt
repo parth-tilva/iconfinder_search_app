@@ -27,13 +27,13 @@ class IconPagingSource(
 
         return try {
             //Log.d(TAG,"all params: iconsetId: $iconSetId, Loadsize: ${params.loadSize} , offset: $offset")
-                //offset of API not working tested from website
+            //offset of API not working tested from website
             val response = iconfinderApi.getIconFromIconSet(iconSetId, 100, offset)
             val photos = response.icons
 
 
-            for(icon in photos){
-                Log.d(TAG,"iconid ${icon.icon_id}")
+            for (icon in photos) {
+                Log.d(TAG, "iconid ${icon.icon_id}")
             }
 
             val nextKey = null//if (photos.size==0) {

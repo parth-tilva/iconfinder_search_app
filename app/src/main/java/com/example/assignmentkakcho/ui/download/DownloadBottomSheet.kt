@@ -30,7 +30,7 @@ class DownloadBottomSheet() : BottomSheetDialogFragment(), DownloadAdapter.OnIte
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding  = FragmentDownloadBottomSheetBinding.inflate(inflater,container,false)
+        binding = FragmentDownloadBottomSheetBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -38,12 +38,12 @@ class DownloadBottomSheet() : BottomSheetDialogFragment(), DownloadAdapter.OnIte
         super.onViewCreated(view, savedInstanceState)
 
         val icon = galleryViewModel.currentIcon
-            binding.rvQualities.adapter = DownloadAdapter(requireContext(),icon,this)
+        binding.rvQualities.adapter = DownloadAdapter(requireContext(), icon, this)
     }
 
     override fun onItemClicked(position: Int) {
         lifecycleScope.launchWhenCreated {
-            galleryViewModel.download(galleryViewModel.currentIcon,position)
+            galleryViewModel.download(galleryViewModel.currentIcon, position)
             dismiss()
         }
     }

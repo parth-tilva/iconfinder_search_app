@@ -14,7 +14,7 @@ private const val TAG = "iconSetPaging"
 
 class IconSetPagingSource(
     private val iconfinderApi: IconfinderApi,
-    private val identifier:String,
+    private val identifier: String,
 ) : PagingSource<Int, IconSet>() {
     var lastIconSetId: String? = null
 
@@ -23,13 +23,13 @@ class IconSetPagingSource(
         val position = params.key ?: UNSPLASH_STARTING_PAGE_INDEX
 
         return try {
-            val response = iconfinderApi.getIconSets(identifier,params.loadSize,lastIconSetId)
-            val  iconSets = response.iconsets
+            val response = iconfinderApi.getIconSets(identifier, params.loadSize, lastIconSetId)
+            val iconSets = response.iconsets
 
 
             lastIconSetId = iconSets[iconSets.lastIndex].iconset_id.toString()
-            Log.d(TAG,"lastIconSetId $lastIconSetId")
-            Log.d(TAG,"lastIconSets list size:  ${iconSets.size}")
+            Log.d(TAG, "lastIconSetId $lastIconSetId")
+            Log.d(TAG, "lastIconSets list size:  ${iconSets.size}")
 
             LoadResult.Page(
                 data = iconSets,

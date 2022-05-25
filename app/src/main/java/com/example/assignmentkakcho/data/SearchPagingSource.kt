@@ -11,7 +11,7 @@ import java.io.IOException
 
 private const val UNSPLASH_STARTING_PAGE_INDEX = 1
 private const val NETWORK_PAGE_SIZE = 25
-private const val TAG ="searchPaging"
+private const val TAG = "searchPaging"
 
 
 class SearchPagingSource(
@@ -20,7 +20,7 @@ class SearchPagingSource(
 ) : PagingSource<Int, Icon>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Icon> {
-        Log.d(TAG,"loading called")
+        Log.d(TAG, "loading called")
 
         val position = params.key ?: UNSPLASH_STARTING_PAGE_INDEX
 
@@ -30,8 +30,8 @@ class SearchPagingSource(
             val response = iconfinderApi.searchPhotos(query, NETWORK_PAGE_SIZE, offset)
             val photos = response.icons
 
-            Log.d(TAG,"loading search photo$query")
-            Log.d(TAG,"phots$photos")
+            Log.d(TAG, "loading search photo$query")
+            Log.d(TAG, "phots$photos")
             val nextKey = if (photos.isEmpty()) {
                 null
             } else {
@@ -50,6 +50,7 @@ class SearchPagingSource(
             LoadResult.Error(e)
         }
     }
+
     override fun getRefreshKey(state: PagingState<Int, Icon>): Int? {
         return null
     }

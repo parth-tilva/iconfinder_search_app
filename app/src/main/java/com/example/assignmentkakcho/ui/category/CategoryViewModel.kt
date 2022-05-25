@@ -11,10 +11,13 @@ import javax.inject.Inject
 private const val TAG = "categoryViewModel"
 
 @HiltViewModel
-class CategoryViewModel @Inject constructor(private val iconRepo: IconfinderRepository): ViewModel() {
+class CategoryViewModel @Inject constructor(private val iconRepo: IconfinderRepository) :
+    ViewModel() {
 
     val categoryList = iconRepo.getCategories()
-    lateinit var  iconSet: List<IconSet>
+    lateinit var iconSet: List<IconSet>
+
+    fun getCategories() = iconRepo.getCategories()
 
     fun getIconSets(category: String): LiveData<PagingData<IconSet>> {
         return iconRepo.getIconSets(category)

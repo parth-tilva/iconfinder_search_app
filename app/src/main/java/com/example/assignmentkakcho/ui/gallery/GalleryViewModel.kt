@@ -40,11 +40,7 @@ class GalleryViewModel @Inject constructor(
         currentQuery.value = query
     }
 
-    fun getIconsInIconSet(iconSetId: Int?,currentQuery: String?):LiveData<PagingData<Icon>>{
-        if(iconSetId==null){
-            Log.d(TAG,"getsearchcalled")
-            return repository.getSearchResults(currentQuery!!)
-        }
+    fun getIconsInIconSet(iconSetId: Int):LiveData<PagingData<Icon>>{
         return repository.getIconsResults(iconSetId)
     }
 

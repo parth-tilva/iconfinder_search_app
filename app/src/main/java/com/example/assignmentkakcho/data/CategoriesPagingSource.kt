@@ -7,10 +7,13 @@ import com.example.assignmentkakcho.api.IconfinderApi
 import com.example.assignmentkakcho.data.model.Category
 import retrofit2.HttpException
 import java.io.IOException
+import javax.inject.Inject
 
 
 private const val UNSPLASH_STARTING_PAGE_INDEX = 1
 private const val TAG = "CategoriesPaging"
+
+
 
 class CategoriesPagingSource(
     private val iconfinderApi: IconfinderApi,
@@ -22,12 +25,12 @@ class CategoriesPagingSource(
         val position = params.key ?: UNSPLASH_STARTING_PAGE_INDEX
 
         return try {
-            val response = iconfinderApi.getCategories(params.loadSize,lastCategory)
-            val  categories = response.categories
+            val response = iconfinderApi.getCategories(params.loadSize, lastCategory)
+            val categories = response.categories
 
-            if(categories.isNotEmpty()){
+            if (categories.isNotEmpty()) {
                 lastCategory = categories[categories.lastIndex].identifier
-                Log.d(TAG,"last category $lastCategory")
+                Log.d(TAG, "last category $lastCategory")
             }
 
             LoadResult.Page(

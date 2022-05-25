@@ -10,16 +10,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.assignmentkakcho.R
 import com.example.assignmentkakcho.data.model.Category
 
-class CategoryAdapter(private val listener: OnItemClickListener):
+class CategoryAdapter(private val listener: OnItemClickListener) :
     PagingDataAdapter<Category, CategoryAdapter.CategoryViewHolder>(CATEGORY_COMPARATOR) {
 
 
-    class CategoryViewHolder( view: View): RecyclerView.ViewHolder(view){
-        val tvName:TextView  = view.findViewById(android.R.id.text1)
+    class CategoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val tvName: TextView = view.findViewById(android.R.id.text1)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(android.R.layout.simple_list_item_1,parent,false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(android.R.layout.simple_list_item_1, parent, false)
         return CategoryViewHolder(view)
     }
 
@@ -44,7 +45,7 @@ class CategoryAdapter(private val listener: OnItemClickListener):
     }
 
     interface OnItemClickListener {
-         fun onItemClick(category: Category)
+        fun onItemClick(category: Category)
     }
 
 

@@ -15,18 +15,13 @@ import com.example.assignmentkakcho.MainActivity
 import com.example.assignmentkakcho.data.model.IconSet
 import com.example.assignmentkakcho.databinding.FragmentIconSetBinding
 import com.example.assignmentkakcho.ui.category.CategoryViewModel
+import com.example.assignmentkakcho.ui.gallery.IconLoadStateAdapter
 
 
 class IconSetFragment : Fragment(),  IconSetAdapter.OnItemClicked {
     private val categoryViewModel: CategoryViewModel by activityViewModels()
     private val args: IconSetFragmentArgs by navArgs()
     lateinit var category: String
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        category = args.categoryIdentifier
-        categoryViewModel.getIconSets(category)
-    }
 
     override fun onResume() {
         super.onResume()
@@ -49,10 +44,19 @@ class IconSetFragment : Fragment(),  IconSetAdapter.OnItemClicked {
         super.onViewCreated(view, savedInstanceState)
         val adapter = IconSetAdapter(this)
         binding.rvIconSet.adapter = adapter
-        binding.rvIconSet.setHasFixedSize(true)
-        categoryViewModel.iconSetList.observe(viewLifecycleOwner, Observer {
+        binding.apply {
+            rvIconSet.setHasFixedSize(true)
+            rvIconSet.adapter = adapter.withLoadStateHeaderAndFooter(
+                header = IconLoadStateAdapter { adapter.retry() },
+                footer = IconLoadStateAdapter { adapter.retry() }
+            )
+            btnRetry.setOnClickListener { adapter.retry() }
+        }
+        category = args.categoryIdentifier
+        categoryViewModel.getIconSets(category).observe(viewLifecycleOwner, Observer {
             adapter.submitData(viewLifecycleOwner.lifecycle,it)
         })
+
         adapter.addLoadStateListener { loadState ->
             binding.apply {
                 progressBar.isVisible = loadState.source.refresh is LoadState.Loading

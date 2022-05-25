@@ -16,24 +16,26 @@ import com.example.assignmentkakcho.ui.download.DownloadAdapter.*
 import com.example.assignmentkakcho.ui.gallery.GalleryViewModel
 
 private const val TAG = "DownloadAdapter"
-class DownloadAdapter(val context: Context, val icon: Icon, val listener: OnItemClicked): RecyclerView.Adapter<DownloadViewHolder>() {
+
+class DownloadAdapter(val context: Context, val icon: Icon, val listener: OnItemClicked) :
+    RecyclerView.Adapter<DownloadViewHolder>() {
     private val list = icon.raster_sizes
 
-    class  DownloadViewHolder(val view: View): RecyclerView.ViewHolder(view){
-        val tvQuality:TextView = view.findViewById(R.id.tvSize)
+    class DownloadViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        val tvQuality: TextView = view.findViewById(R.id.tvSize)
         val tvFormat: TextView = view.findViewById(R.id.tvFormat)
-        val constraintL:ConstraintLayout = view.findViewById(R.id.constraintL)
+        val constraintL: ConstraintLayout = view.findViewById(R.id.constraintL)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DownloadViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_download,parent,false)
-        Log.d(TAG,"oncreate view holder called")
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_download, parent, false)
         return DownloadViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: DownloadViewHolder, position: Int) {
         val item = list[position]
-        Log.d(TAG,"list: $list")
+        Log.d(TAG, "list: $list")
         val size = item.size.toString()
         val format = item.formats[0].format
         holder.tvQuality.text = "Size: $size ✖ $size "
@@ -45,12 +47,11 @@ class DownloadAdapter(val context: Context, val icon: Icon, val listener: OnItem
     }
 
     override fun getItemCount(): Int {
-        Log.d(TAG,"listcount called : ${list.size}")
         return list.size
 
     }
 
-    interface OnItemClicked{
+    interface OnItemClicked {
         fun onItemClicked(position: Int)
     }
 

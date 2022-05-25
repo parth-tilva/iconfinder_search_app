@@ -23,12 +23,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 
+private const val TAG = "categoryFragment"
+
 @AndroidEntryPoint
 class CategoryFragment : Fragment(), CategoryAdapter.OnItemClickListener {
 
-    val TAG ="categoryfragment"
 
-    private val viewModel:CategoryViewModel by activityViewModels()
+    private val viewModel: CategoryViewModel by activityViewModels()
 
     private var _binding: FragmentCategoryBinding? = null
     private val binding get() = _binding!!
@@ -39,33 +40,22 @@ class CategoryFragment : Fragment(), CategoryAdapter.OnItemClickListener {
 
     override fun onResume() {
         super.onResume()
-        Log.d(TAG,"onresume called ")
-        (activity as MainActivity?)?.let{
+        (activity as MainActivity?)?.let {
             it.supportActionBar?.setDisplayShowHomeEnabled(true)
             it.supportActionBar?.setIcon(R.drawable.iconfinder_logo_icon)
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.d(TAG,"oncreat called ")
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d(TAG,"oncreateview called ")
-        _binding = FragmentCategoryBinding.inflate(inflater,container,false)
+        _binding = FragmentCategoryBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d(TAG,"onviewcreated called ")
-
-        Log.d(TAG,"onviewcreated called ")
 
         val adapter = CategoryAdapter(this)
         binding.apply {
@@ -76,18 +66,12 @@ class CategoryFragment : Fragment(), CategoryAdapter.OnItemClickListener {
             )
             btnRetry.setOnClickListener { adapter.retry() }
         }
-        Log.d(TAG,"onviewcreated called ")
-
         binding.rvCategories.adapter = adapter
 
-        Log.d(TAG,"onviewcreated called  before observer")
 
-
-            viewModel.categoryList.observe(viewLifecycleOwner, Observer {
-                adapter.submitData(viewLifecycleOwner.lifecycle,it)
-            })
-
-        Log.d(TAG,"onviewcreated called  after observer")
+        viewModel.getCategories().observe(viewLifecycleOwner, Observer {
+            adapter.submitData(viewLifecycleOwner.lifecycle, it)
+        })
 
         adapter.addLoadStateListener { loadState ->
             binding.apply {
@@ -107,25 +91,12 @@ class CategoryFragment : Fragment(), CategoryAdapter.OnItemClickListener {
                 }
             }
         }
-        setHasOptionsMenu(true)
     }
 
     override fun onItemClick(category: Category) {
-        val action = CategoryFragmentDirections.actionCategoryFragmentToIconSetFragment(category.identifier)
+        val action =
+            CategoryFragmentDirections.actionCategoryFragmentToIconSetFragment(category.identifier)
         findNavController().navigate(action)
     }
 
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.search_icon, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == R.id.icon_search){
-            val action = CategoryFragmentDirections.actionCategoryFragmentToGalleryFragment(-1,"xyz")
-            findNavController().navigate(action)
-        }
-        return super.onOptionsItemSelected(item)
-    }
 }

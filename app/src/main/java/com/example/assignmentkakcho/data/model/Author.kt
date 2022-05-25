@@ -1,5 +1,6 @@
 package com.example.assignmentkakcho.data.model
 
+
 data class Author(
     val company: String?,
     val iconsets_count: Int?,

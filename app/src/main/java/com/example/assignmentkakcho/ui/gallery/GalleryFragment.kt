@@ -48,15 +48,14 @@ import java.io.File
 @AndroidEntryPoint
 class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemClickListener
     {
-
         private val viewModel: GalleryViewModel by activityViewModels()
         private val args: GalleryFragmentArgs by navArgs()
 
-    private var _binding: FragmentGalleryBinding? = null
-    private val binding get() = _binding!!
+        private var _binding: FragmentGalleryBinding? = null
+        private val binding get() = _binding!!
 
-    private var writePermissionGranted = false
-    private lateinit var permissionLauncher: ActivityResultLauncher<String>
+        private var writePermissionGranted = false
+        private lateinit var permissionLauncher: ActivityResultLauncher<String>
 
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

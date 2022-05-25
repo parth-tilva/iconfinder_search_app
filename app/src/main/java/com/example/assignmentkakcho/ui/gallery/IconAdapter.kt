@@ -95,7 +95,7 @@ class IconAdapter(private val listener: OnItemClickListener) :
     }
 
     interface OnItemClickListener {
-       fun onItemClick(icon: Icon)
+        fun onItemClick(icon: Icon)
         fun onDownloadClicked(icon: Icon)
     }
 
