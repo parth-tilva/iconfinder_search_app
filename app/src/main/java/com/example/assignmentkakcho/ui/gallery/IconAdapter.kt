@@ -33,7 +33,6 @@ class IconAdapter(private val listener: OnItemClickListener) :
         RecyclerView.ViewHolder(binding.root) {
 
         init {
-
             binding.apply {
                 root.setOnClickListener {
                     val position = bindingAdapterPosition

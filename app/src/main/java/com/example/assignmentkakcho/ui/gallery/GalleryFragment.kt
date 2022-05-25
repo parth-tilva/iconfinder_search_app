@@ -24,7 +24,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -50,28 +49,18 @@ import java.io.File
 class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemClickListener
     {
 
-    val TAG = "GalleryFragment"
-    private val viewModel: GalleryViewModel by activityViewModels()
+        private val viewModel: GalleryViewModel by activityViewModels()
         private val args: GalleryFragmentArgs by navArgs()
 
     private var _binding: FragmentGalleryBinding? = null
     private val binding get() = _binding!!
-        private var globalQuery = ""
 
     private var writePermissionGranted = false
-        private lateinit var adapter: IconAdapter
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
 
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            (activity as MainActivity?)?.let{
-                it.supportActionBar?.setDisplayShowHomeEnabled(false)
-            }
-        }
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val iconSetId = args.iconSetId
-            globalQuery = args.globalQuery
         permissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) {
                 writePermissionGranted = it
@@ -83,7 +72,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemC
 
         _binding = FragmentGalleryBinding.bind(view)
 
-         adapter = IconAdapter(this)
+        val adapter = IconAdapter(this)
 
         binding.apply {
             recyclerView.setHasFixedSize(true)
@@ -94,12 +83,9 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemC
             btnRetry.setOnClickListener { adapter.retry() }
         }
 
-            if(iconSetId!=-1){
-                viewModel.getIconsInIconSet(iconSetId,null).observe(viewLifecycleOwner) {
-                    adapter.submitData(viewLifecycleOwner.lifecycle, it)
-                }
-            }
-
+        viewModel.getIconsInIconSet(iconSetId).observe(viewLifecycleOwner) {
+            adapter.submitData(viewLifecycleOwner.lifecycle, it)
+        }
 
         adapter.addLoadStateListener { loadState ->
             binding.apply {
@@ -161,35 +147,30 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemC
         bottomSheet.show(parentFragmentManager,"xyz")
     }
 
-            override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-                super.onCreateOptionsMenu(menu, inflater)
-                if(globalQuery!=""){
-                    inflater.inflate(R.menu.serach_menu, menu)
-                    val searchItem = menu.findItem(R.id.action_serach)
-                    val searchView = searchItem.actionView as SearchView
-                    searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                        override fun onQueryTextSubmit(query: String?): Boolean {
-                            if (query != null) {
-                                binding.recyclerView.scrollToPosition(0)
-                                viewModel.searchPhotos(query)
-                                viewModel.photos.observe(viewLifecycleOwner, Observer {
-                                    adapter.submitData(viewLifecycleOwner.lifecycle,it)
-                                })
-                                searchView.clearFocus()
-                                Log.d(TAG,"querytext submited")
-                            }
-                            return true
-                        }
 
-                        override fun onQueryTextChange(newText: String?): Boolean {
-                            return true
-                        }
-                    })
-                    searchView.setQuery(" ",false)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+
+        inflater.inflate(R.menu.serach_menu, menu)
+        val searchItem = menu.findItem(R.id.action_serach)
+        val searchView = searchItem.actionView as SearchView
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+
+                if (query != null) {
+                    binding.recyclerView.scrollToPosition(0)
+                    viewModel.searchPhotos(query)
+                    searchView.clearFocus()
                 }
+                return true
             }
 
-
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+        })
+    }
 
     override fun onItemClick(icon: Icon) {
 //        val action = GalleryFragmentDirections.actionGalleryFragmentToCategoryFragment()

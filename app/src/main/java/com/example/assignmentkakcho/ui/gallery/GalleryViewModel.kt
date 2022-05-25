@@ -28,16 +28,13 @@ class GalleryViewModel @Inject constructor(
     private val app: Application,
 ) : AndroidViewModel(app) {
 
-    val TAG = "galleyViewmodel"
+    private val TAG = "galleyViewModel"
 
     private val currentQuery = MutableLiveData("Social Media")
 
     private val _sharedMsg = MutableSharedFlow<String>()
     val sharedMsg = _sharedMsg.asSharedFlow()
 
-    val photos = currentQuery.switchMap { queryString ->
-        repository.getSearchResults(queryString).cachedIn(viewModelScope)
-    }
 
     fun searchPhotos(query: String) {
         currentQuery.value = query
@@ -59,16 +56,12 @@ class GalleryViewModel @Inject constructor(
 
     @SuppressLint("Range")
     fun download(icon: Icon, position: Int) {
-        Log.d(TAG,"before return cliced postion: $position")
 
         viewModelScope.launch {
                 var downloadID: Long = 0
                 _sharedMsg.emit("Downloading...")
-                Log.d(TAG,"download cliced postion: $position")
-
                 val downloadManager = getApplication<IconfinderApplication>().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-                val index = icon.raster_sizes.size - 1
-                val urlString = icon.raster_sizes[index].formats[0].preview_url
+                val urlString = icon.raster_sizes[position].formats[0].preview_url
                 lateinit var request: DownloadManager.Request
                 try {
                     request = DownloadManager.Request(Uri.parse(urlString))
@@ -84,9 +77,7 @@ class GalleryViewModel @Inject constructor(
                     downloadID = downloadManager.enqueue(request)
 
                 } catch (e: Exception) {
-                    Log.d(TAG,"msg: $e")
                     _sharedMsg.emit(e.toString())
-                    Log.d(TAG,"msg: $e")
                 }
 
                 val query = DownloadManager.Query().setFilterById(downloadID)
@@ -95,19 +86,16 @@ class GalleryViewModel @Inject constructor(
                 while (downloading) {
                     val cursor: Cursor = downloadManager.query(query)
                     cursor.moveToFirst()
-                    if (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)) == DownloadManager.STATUS_SUCCESSFUL) {
+                    if (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)) == DownloadManager.STATUS_SUCCESSFUL or DownloadManager.STATUS_FAILED) {
                         downloading = false
                     }
-
                     val msg = when (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))) {
                         DownloadManager.STATUS_SUCCESSFUL -> "Download successful"
                         DownloadManager.STATUS_FAILED -> "Download failed"
                         else -> ""
                     }
                     delay(500L)
-                    Log.e("DownloadManager", " Status is :$msg")
                     if (msg != lastMsg) {
-                        Log.d(TAG,"msg: $msg")
                         _sharedMsg.emit(msg)
                         lastMsg = msg
                     }
@@ -115,5 +103,4 @@ class GalleryViewModel @Inject constructor(
                 }
             }
         }
-
 }
