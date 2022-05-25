@@ -15,7 +15,7 @@ import com.example.assignmentkakcho.data.model.Icon
 import com.example.assignmentkakcho.ui.download.DownloadAdapter.*
 import com.example.assignmentkakcho.ui.gallery.GalleryViewModel
 
-const val TAG = "DownloadAdapter"
+private const val TAG = "DownloadAdapter"
 class DownloadAdapter(val context: Context, val icon: Icon, val listener: OnItemClicked): RecyclerView.Adapter<DownloadViewHolder>() {
     private val list = icon.raster_sizes
 

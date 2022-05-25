@@ -18,11 +18,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
+
 @AndroidEntryPoint
 class DownloadBottomSheet() : BottomSheetDialogFragment(), DownloadAdapter.OnItemClicked {
-     val TAG ="bottomSheet"
     private val galleryViewModel: GalleryViewModel by activityViewModels()
     lateinit var binding: FragmentDownloadBottomSheetBinding
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

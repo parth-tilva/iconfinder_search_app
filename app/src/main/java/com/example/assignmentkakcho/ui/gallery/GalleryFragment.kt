@@ -49,8 +49,7 @@ import java.io.File
 class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemClickListener
     {
 
-    val TAG = "GalleryFragment"
-    private val viewModel: GalleryViewModel by activityViewModels()
+        private val viewModel: GalleryViewModel by activityViewModels()
         private val args: GalleryFragmentArgs by navArgs()
 
     private var _binding: FragmentGalleryBinding? = null
@@ -59,12 +58,6 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemC
     private var writePermissionGranted = false
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
 
-//        override fun onResume() {
-//            super.onResume()
-//            (activity as MainActivity?)?.let{
-//                it.supportActionBar?.setDisplayShowHomeEnabled(false)
-//            }
-//        }
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val iconSetId = args.iconSetId
