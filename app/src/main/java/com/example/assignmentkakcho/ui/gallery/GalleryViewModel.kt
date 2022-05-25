@@ -35,9 +35,6 @@ class GalleryViewModel @Inject constructor(
     private val _sharedMsg = MutableSharedFlow<String>()
     val sharedMsg = _sharedMsg.asSharedFlow()
 
-    val photos = currentQuery.switchMap { queryString ->
-        repository.getSearchResults(queryString).cachedIn(viewModelScope)
-    }
 
     fun getIconsInIconSet(iconSetId: Int ):LiveData<PagingData<Icon>>{
         return repository.getIconsResults(iconSetId)
