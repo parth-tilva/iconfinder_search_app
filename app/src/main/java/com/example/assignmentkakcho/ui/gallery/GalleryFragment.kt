@@ -44,7 +44,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 
-
+private const val TAG = "GalleryFragment"
 @AndroidEntryPoint
 class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemClickListener
     {
@@ -82,7 +82,8 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemC
             btnRetry.setOnClickListener { adapter.retry() }
         }
 
-        viewModel.getIconsInIconSet(iconSetId).observe(viewLifecycleOwner) {
+        viewModel.getIconsInIconSet(iconSetId)
+            viewModel.iconList.observe(viewLifecycleOwner) {
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
 
@@ -169,6 +170,16 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemC
                 return true
             }
         })
+
+
+
+
+        lifecycleScope.launch {
+            delay(8000L)
+            Log.d(TAG,"asdf")
+            searchItem.expandActionView()
+            searchView.setQuery("",false)
+        }
     }
 
     override fun onItemClick(icon: Icon) {
@@ -184,7 +195,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemC
         } else {
             askPermission()
             if(writePermissionGranted){
-                onDownloadClicked(icon)
+                downloadImage(icon)
             }else{
                 Toast.makeText(
                     requireContext(),

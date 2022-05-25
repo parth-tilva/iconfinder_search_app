@@ -27,7 +27,7 @@ class IconfinderRepository @Inject constructor(private val iconfinderApi: Iconfi
     fun getCategories() =
         Pager(
             config = PagingConfig(
-                pageSize = 20,
+                pageSize = 15,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = { CategoriesPagingSource(iconfinderApi) }

@@ -1,8 +1,8 @@
 package com.example.assignmentkakcho.ui.category
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.example.assignmentkakcho.data.repository.IconfinderRepository
 import com.example.assignmentkakcho.data.model.IconSet
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,13 +14,24 @@ private const val TAG = "categoryViewModel"
 class CategoryViewModel @Inject constructor(private val iconRepo: IconfinderRepository) :
     ViewModel() {
 
-    val categoryList = iconRepo.getCategories()
+    val categoryList = iconRepo.getCategories().cachedIn(viewModelScope)
     lateinit var iconSet: List<IconSet>
 
-    fun getCategories() = iconRepo.getCategories()
 
-    fun getIconSets(category: String): LiveData<PagingData<IconSet>> {
-        return iconRepo.getIconSets(category)
+    private val currentCategory = MutableLiveData("")
+
+    val iconSetList  = currentCategory.switchMap {
+        iconRepo.getIconSets(it).cachedIn(viewModelScope)
     }
+
+    fun getIconSets(query: String){
+        if(query != currentCategory.value)
+        currentCategory.value = query
+    }
+
+
+//    fun getIconSets(category: String): LiveData<PagingData<IconSet>> {
+//        return iconRepo.getIconSets(category).cachedIn(viewModelScope)
+//    }
 
 }

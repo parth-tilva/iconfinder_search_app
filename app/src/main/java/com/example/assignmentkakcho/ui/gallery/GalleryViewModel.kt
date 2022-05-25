@@ -40,8 +40,16 @@ class GalleryViewModel @Inject constructor(
         currentQuery.value = query
     }
 
-    fun getIconsInIconSet(iconSetId: Int):LiveData<PagingData<Icon>>{
-        return repository.getIconsResults(iconSetId)
+    private val currentIconSet: MutableLiveData<Int> = MutableLiveData()
+
+
+    val iconList = currentIconSet.distinctUntilChanged().switchMap{
+        repository.getIconsResults(it).cachedIn(viewModelScope)
+    }
+
+
+    fun getIconsInIconSet(iconSetId: Int){
+        currentIconSet.value = iconSetId
     }
 
 

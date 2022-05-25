@@ -52,8 +52,10 @@ class IconSetFragment : Fragment(),  IconSetAdapter.OnItemClicked {
             )
             btnRetry.setOnClickListener { adapter.retry() }
         }
+
         category = args.categoryIdentifier
-        categoryViewModel.getIconSets(category).observe(viewLifecycleOwner, Observer {
+        categoryViewModel.getIconSets(category)
+        categoryViewModel.iconSetList.observe(viewLifecycleOwner, Observer {
             adapter.submitData(viewLifecycleOwner.lifecycle,it)
         })
 

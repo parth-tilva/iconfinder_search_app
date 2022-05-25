@@ -21,6 +21,17 @@ class IconSetAdapter(val listener: OnItemClicked) :
         val tvAuthName: TextView = view.findViewById(R.id.tvAuthorName)
         val tvIconsCount: TextView = view.findViewById(R.id.tvIconsCount)
 
+        init {
+            view.setOnClickListener {
+                val position = bindingAdapterPosition
+                if(position!= RecyclerView.NO_POSITION){
+                    val iconSet = getItem(position)
+                    if(iconSet!=null){
+                        listener.onItemClicked(iconSet)
+                    }
+                }
+            }
+        }
         fun bind(iconSet: IconSet) {
             tvId.text = "Id: " + iconSet.iconset_id.toString()
             tvAuthName.text = "Author: " + iconSet.author.name
@@ -42,9 +53,6 @@ class IconSetAdapter(val listener: OnItemClicked) :
         val iconSet = getItem(position)
         if (iconSet != null) {
             holder.bind(iconSet)
-            holder.itemView.setOnClickListener {
-                listener.onItemClicked(iconSet)
-            }
         }
     }
 

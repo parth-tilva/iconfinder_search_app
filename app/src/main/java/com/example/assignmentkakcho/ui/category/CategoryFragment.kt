@@ -33,10 +33,7 @@ class CategoryFragment : Fragment(), CategoryAdapter.OnItemClickListener {
 
     private var _binding: FragmentCategoryBinding? = null
     private val binding get() = _binding!!
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
+
 
     override fun onResume() {
         super.onResume()
@@ -69,7 +66,7 @@ class CategoryFragment : Fragment(), CategoryAdapter.OnItemClickListener {
         binding.rvCategories.adapter = adapter
 
 
-        viewModel.getCategories().observe(viewLifecycleOwner, Observer {
+        viewModel.categoryList.observe(viewLifecycleOwner, Observer {
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
         })
 
@@ -93,10 +90,27 @@ class CategoryFragment : Fragment(), CategoryAdapter.OnItemClickListener {
         }
     }
 
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//        inflater.inflate(R.menu.search_icon,menu)
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        if(item.itemId == R.id.icon_search){
+//            val action = CategoryFragmentDirections.actionCategoryFragmentToGalleryFragment(-1,"")
+//            findNavController().navigate(action)
+//        }
+//        return super.onOptionsItemSelected(item)
+//    }
+
     override fun onItemClick(category: Category) {
         val action =
             CategoryFragmentDirections.actionCategoryFragmentToIconSetFragment(category.identifier)
         findNavController().navigate(action)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
 }
