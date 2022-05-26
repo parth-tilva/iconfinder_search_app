@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.assignmentkakcho.R
 import com.example.assignmentkakcho.data.model.IconSet
-import com.example.assignmentkakcho.ui.gallery.GalleryViewModel
 
 class IconSetAdapter(val listener: OnItemClicked) :
     PagingDataAdapter<IconSet, IconSetAdapter.IconSetViewHolder>(
@@ -17,9 +16,9 @@ class IconSetAdapter(val listener: OnItemClicked) :
     ) {
 
     inner class IconSetViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val tvId: TextView = view.findViewById(R.id.iconset_id)
-        val tvAuthName: TextView = view.findViewById(R.id.tvAuthorName)
-        val tvIconsCount: TextView = view.findViewById(R.id.tvIconsCount)
+        private val tvId: TextView = view.findViewById(R.id.iconset_id)
+        private val tvAuthName: TextView = view.findViewById(R.id.tvAuthorName)
+        private val tvIconsCount: TextView = view.findViewById(R.id.tvIconsCount)
 
         init {
             view.setOnClickListener {

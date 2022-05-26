@@ -22,6 +22,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
 
+private const  val TAG = "galleyViewModel"
 
 @HiltViewModel
 class GalleryViewModel @Inject constructor(
@@ -29,21 +30,15 @@ class GalleryViewModel @Inject constructor(
     private val app: Application,
 ) : AndroidViewModel(app) {
 
-    private val TAG = "galleyViewModel"
 
     private val currentQuery : MutableLiveData<String> = MutableLiveData()
 
-
     val searchResult = currentQuery.distinctUntilChanged().switchMap {
-
         repository.getSearchResults(it).cachedIn(viewModelScope)
     }
 
-
-
     private val _sharedMsg = MutableSharedFlow<String>()
     val sharedMsg = _sharedMsg.asSharedFlow()
-
 
     fun searchPhotos(query: String) {
         if(query!="")
@@ -52,21 +47,16 @@ class GalleryViewModel @Inject constructor(
 
     private val currentIconSet: MutableLiveData<Int> = MutableLiveData()
 
-
     val iconList = currentIconSet.distinctUntilChanged().switchMap{
         repository.getIconsResults(it).cachedIn(viewModelScope)
     }
-
 
     fun getIconsInIconSet(iconSetId: Int){
         currentIconSet.value = iconSetId
     }
 
-
-
     lateinit var currentIcon:Icon
     var position =0
-
 
     @SuppressLint("Range")
     fun download(icon: Icon, position: Int) {

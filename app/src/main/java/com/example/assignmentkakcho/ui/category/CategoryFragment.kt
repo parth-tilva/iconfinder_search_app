@@ -20,12 +20,9 @@ private const val TAG = "categoryFragment"
 @AndroidEntryPoint
 class CategoryFragment : Fragment(), CategoryAdapter.OnItemClickListener {
 
-
     private val viewModel: CategoryViewModel by activityViewModels()
-
     private var _binding: FragmentCategoryBinding? = null
     private val binding get() = _binding!!
-
 
     override fun onResume() {
         super.onResume()
@@ -90,8 +87,8 @@ class CategoryFragment : Fragment(), CategoryAdapter.OnItemClickListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.icon_search){
             (activity as MainActivity?)?.let {
-                it.supportActionBar?.setDisplayShowHomeEnabled(false)
                 it.supportActionBar?.title = ""
+                it.supportActionBar?.setDisplayShowHomeEnabled(false)
             }
             val action = CategoryFragmentDirections.actionCategoryFragmentToGalleryFragment(-1,"")
             findNavController().navigate(action)

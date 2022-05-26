@@ -30,8 +30,7 @@ class SearchPagingSource(
             val response = iconfinderApi.searchPhotos(query, NETWORK_PAGE_SIZE, offset)
             val photos = response.icons
 
-            Log.d(TAG, "loading search photo$query")
-            Log.d(TAG, "phots$photos")
+            Log.d(TAG, "photos $photos")
             val nextKey = if (photos.isEmpty()) {
                 null
             } else {

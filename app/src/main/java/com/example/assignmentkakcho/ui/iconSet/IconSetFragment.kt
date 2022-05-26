@@ -31,12 +31,14 @@ class IconSetFragment : Fragment(),  IconSetAdapter.OnItemClicked {
         }
     }
 
-    lateinit var binding: FragmentIconSetBinding
+    private var _binding: FragmentIconSetBinding? = null
+    private val binding = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentIconSetBinding.inflate(inflater,container,false)
+        _binding = FragmentIconSetBinding.inflate(inflater,container,false)
         return binding.root
     }
 

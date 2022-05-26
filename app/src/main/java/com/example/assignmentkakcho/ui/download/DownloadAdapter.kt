@@ -24,7 +24,6 @@ class DownloadAdapter(val context: Context, val icon: Icon, val listener: OnItem
     class DownloadViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val tvQuality: TextView = view.findViewById(R.id.tvSize)
         val tvFormat: TextView = view.findViewById(R.id.tvFormat)
-        val constraintL: ConstraintLayout = view.findViewById(R.id.constraintL)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DownloadViewHolder {

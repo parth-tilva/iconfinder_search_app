@@ -7,7 +7,6 @@ import android.widget.TextView
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.assignmentkakcho.R
 import com.example.assignmentkakcho.data.model.Category
 
 class CategoryAdapter(private val listener: OnItemClickListener) :

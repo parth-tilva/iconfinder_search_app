@@ -36,46 +36,25 @@ private const val TAG = "GalleryFragment"
 class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemClickListener {
     private val viewModel: GalleryViewModel by activityViewModels()
     private val args: GalleryFragmentArgs by navArgs()
-
     private var _binding: FragmentGalleryBinding? = null
     private val binding get() = _binding!!
-
     private var writePermissionGranted = false
     private lateinit var searchView: SearchView
     private lateinit var searchItem: MenuItem
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
 
-    override fun onCreate(savedInstanceState: Bundle?) {  // or on resume
-        super.onCreate(savedInstanceState)
-        val iconSetId = args.iconSetId
-        if(iconSetId!=-1){
-            (activity as MainActivity?)?.let {
-                it.supportActionBar?.setDisplayShowHomeEnabled(false)
-            }
-        }else{
-            (activity as MainActivity?)?.let {
-                it.supportActionBar?.setDisplayShowHomeEnabled(false)
-                it.supportActionBar?.title = ""
-            }
-        }
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentGalleryBinding.bind(view)
+
         val iconSetId = args.iconSetId
         permissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) {
                 writePermissionGranted = it
             }
-
-        super.onViewCreated(view, savedInstanceState)
-
         updateRequestPermission()
-
-        _binding = FragmentGalleryBinding.bind(view)
-
         val adapter = IconAdapter(this)
-
-
         binding.apply {
             recyclerView.setHasFixedSize(true)
             recyclerView.itemAnimator = null
@@ -93,7 +72,6 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemC
             }
         } else {
             setHasOptionsMenu(true)
-            Log.d(TAG, "searchresult: ${viewModel.searchResult.value}")
             viewModel.searchResult.observe(viewLifecycleOwner) {
                 adapter.submitData(viewLifecycleOwner.lifecycle, it)
             }
@@ -131,7 +109,6 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemC
         }
     }
 
-
     private fun updateRequestPermission() {
         val hasWritePermission = ContextCompat.checkSelfPermission(
             requireContext(),
@@ -149,7 +126,6 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemC
         }
     }
 
-
     private fun downloadImage(icon: Icon) {
         val bottomSheet = DownloadBottomSheet()
         bottomSheet.show(parentFragmentManager, "xyz")
@@ -162,7 +138,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemC
         inflater.inflate(R.menu.serach_menu, menu)
         searchItem = menu.findItem(R.id.action_serach)
         searchView = searchItem.actionView as SearchView
-        if (viewModel.searchResult?.value == null) {
+        if (viewModel.searchResult.value == null) {
             searchItem.expandActionView()
             searchView.setQuery("", false)
         }
@@ -226,6 +202,5 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemC
         super.onDestroyView()
         _binding = null
     }
-
 
 }

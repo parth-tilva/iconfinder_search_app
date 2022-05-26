@@ -7,7 +7,6 @@ import com.example.assignmentkakcho.api.IconfinderApi
 import com.example.assignmentkakcho.data.model.Category
 import retrofit2.HttpException
 import java.io.IOException
-import javax.inject.Inject
 
 
 private const val UNSPLASH_STARTING_PAGE_INDEX = 1

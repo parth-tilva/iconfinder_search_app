@@ -26,7 +26,6 @@ class IconPagingSource(
         val offset = if (params.key != null) ((position - 1) * NETWORK_PAGE_SIZE) else 0 // 1
 
         return try {
-            //Log.d(TAG,"all params: iconsetId: $iconSetId, Loadsize: ${params.loadSize} , offset: $offset")
             //offset of API not working tested from website
             val response = iconfinderApi.getIconFromIconSet(iconSetId, 100, offset)
             val photos = response.icons
@@ -37,11 +36,7 @@ class IconPagingSource(
             }
 
             val nextKey = null//if (photos.size==0) {
-//                Log.d(TAG,"nextKey  null $photos")
-//                null
-//            } else {
-//                position + (params.loadSize / NETWORK_PAGE_SIZE)
-//            }
+
             LoadResult.Page(
                 data = photos,
                 prevKey = if (position == UNSPLASH_STARTING_PAGE_INDEX) null else position - 1,
