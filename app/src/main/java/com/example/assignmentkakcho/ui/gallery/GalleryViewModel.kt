@@ -15,6 +15,7 @@ import com.example.assignmentkakcho.IconfinderApplication
 import com.example.assignmentkakcho.data.repository.IconfinderRepository
 import com.example.assignmentkakcho.data.model.Icon
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -30,13 +31,22 @@ class GalleryViewModel @Inject constructor(
 
     private val TAG = "galleyViewModel"
 
-    private val currentQuery = MutableLiveData("Social Media")
+    private val currentQuery : MutableLiveData<String> = MutableLiveData()
+
+
+    val searchResult = currentQuery.distinctUntilChanged().switchMap {
+
+        repository.getSearchResults(it).cachedIn(viewModelScope)
+    }
+
+
 
     private val _sharedMsg = MutableSharedFlow<String>()
     val sharedMsg = _sharedMsg.asSharedFlow()
 
 
     fun searchPhotos(query: String) {
+        if(query!="")
         currentQuery.value = query
     }
 

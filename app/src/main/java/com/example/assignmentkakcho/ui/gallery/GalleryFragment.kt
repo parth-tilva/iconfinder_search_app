@@ -1,18 +1,13 @@
 package com.example.assignmentkakcho.ui.gallery
 
 import android.Manifest
-import android.annotation.SuppressLint
-import android.app.DownloadManager
-import android.content.Context.DOWNLOAD_SERVICE
 import android.content.pm.PackageManager
-import android.database.Cursor
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -21,9 +16,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -32,33 +25,42 @@ import com.example.assignmentkakcho.MainActivity
 import com.example.assignmentkakcho.R
 import com.example.assignmentkakcho.data.model.Icon
 import com.example.assignmentkakcho.databinding.FragmentGalleryBinding
-import com.example.assignmentkakcho.ui.download.DownloadAdapter
 import com.example.assignmentkakcho.ui.download.DownloadBottomSheet
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.File
 
 private const val TAG = "GalleryFragment"
+
 @AndroidEntryPoint
-class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemClickListener
-    {
-        private val viewModel: GalleryViewModel by activityViewModels()
-        private val args: GalleryFragmentArgs by navArgs()
+class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemClickListener {
+    private val viewModel: GalleryViewModel by activityViewModels()
+    private val args: GalleryFragmentArgs by navArgs()
 
-        private var _binding: FragmentGalleryBinding? = null
-        private val binding get() = _binding!!
+    private var _binding: FragmentGalleryBinding? = null
+    private val binding get() = _binding!!
 
-        private var writePermissionGranted = false
-        private lateinit var permissionLauncher: ActivityResultLauncher<String>
+    private var writePermissionGranted = false
+    private lateinit var searchView: SearchView
+    private lateinit var searchItem: MenuItem
+    private lateinit var permissionLauncher: ActivityResultLauncher<String>
 
+    override fun onCreate(savedInstanceState: Bundle?) {  // or on resume
+        super.onCreate(savedInstanceState)
+        val iconSetId = args.iconSetId
+        if(iconSetId!=-1){
+            (activity as MainActivity?)?.let {
+                it.supportActionBar?.setDisplayShowHomeEnabled(false)
+            }
+        }else{
+            (activity as MainActivity?)?.let {
+                it.supportActionBar?.setDisplayShowHomeEnabled(false)
+                it.supportActionBar?.title = ""
+            }
+        }
+    }
 
-        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val iconSetId = args.iconSetId
         permissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) {
@@ -73,8 +75,10 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemC
 
         val adapter = IconAdapter(this)
 
+
         binding.apply {
             recyclerView.setHasFixedSize(true)
+            recyclerView.itemAnimator = null
             recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
                 header = IconLoadStateAdapter { adapter.retry() },
                 footer = IconLoadStateAdapter { adapter.retry() }
@@ -82,11 +86,18 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemC
             btnRetry.setOnClickListener { adapter.retry() }
         }
 
-        viewModel.getIconsInIconSet(iconSetId)
+        if (iconSetId != -1) {
+            viewModel.getIconsInIconSet(iconSetId)
             viewModel.iconList.observe(viewLifecycleOwner) {
-            adapter.submitData(viewLifecycleOwner.lifecycle, it)
+                adapter.submitData(viewLifecycleOwner.lifecycle, it)
+            }
+        } else {
+            setHasOptionsMenu(true)
+            Log.d(TAG, "searchresult: ${viewModel.searchResult.value}")
+            viewModel.searchResult.observe(viewLifecycleOwner) {
+                adapter.submitData(viewLifecycleOwner.lifecycle, it)
+            }
         }
-
         adapter.addLoadStateListener { loadState ->
             binding.apply {
                 progressBar.isVisible = loadState.source.refresh is LoadState.Loading
@@ -105,13 +116,10 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemC
                 }
             }
         }
-
-        setHasOptionsMenu(true)
         downloadUpdates()
-
     }
 
-    private fun downloadUpdates(){
+    private fun downloadUpdates() {
         lifecycleScope.launchWhenStarted {
             viewModel.sharedMsg.collectLatest {
                 Snackbar.make(
@@ -135,7 +143,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemC
     }
 
 
-    private fun askPermission(){
+    private fun askPermission() {
         if (!writePermissionGranted) {
             permissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
@@ -144,7 +152,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemC
 
     private fun downloadImage(icon: Icon) {
         val bottomSheet = DownloadBottomSheet()
-        bottomSheet.show(parentFragmentManager,"xyz")
+        bottomSheet.show(parentFragmentManager, "xyz")
     }
 
 
@@ -152,13 +160,30 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemC
         super.onCreateOptionsMenu(menu, inflater)
 
         inflater.inflate(R.menu.serach_menu, menu)
-        val searchItem = menu.findItem(R.id.action_serach)
-        val searchView = searchItem.actionView as SearchView
+        searchItem = menu.findItem(R.id.action_serach)
+        searchView = searchItem.actionView as SearchView
+        if (viewModel.searchResult?.value == null) {
+            searchItem.expandActionView()
+            searchView.setQuery("", false)
+        }
+
+
+        searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                val action = GalleryFragmentDirections.actionGalleryFragmentToCategoryFragment()
+                findNavController().navigate(action)
+                return true
+            }
+        })
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
 
-                if (query != null) {
+                if (query != null && query != "") {
                     binding.recyclerView.scrollToPosition(0)
                     viewModel.searchPhotos(query)
                     searchView.clearFocus()
@@ -171,15 +196,6 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemC
             }
         })
 
-
-
-
-        lifecycleScope.launch {
-            delay(8000L)
-            Log.d(TAG,"asdf")
-            searchItem.expandActionView()
-            searchView.setQuery("",false)
-        }
     }
 
     override fun onItemClick(icon: Icon) {
@@ -194,9 +210,9 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemC
             downloadImage(icon)
         } else {
             askPermission()
-            if(writePermissionGranted){
+            if (writePermissionGranted) {
                 downloadImage(icon)
-            }else{
+            } else {
                 Toast.makeText(
                     requireContext(),
                     "Can't download photo allow permission from settings",
@@ -210,5 +226,6 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemC
         super.onDestroyView()
         _binding = null
     }
+
 
 }

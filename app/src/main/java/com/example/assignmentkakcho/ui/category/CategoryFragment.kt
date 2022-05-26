@@ -1,27 +1,19 @@
 package com.example.assignmentkakcho.ui.category
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import androidx.fragment.app.Fragment
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.example.assignmentkakcho.MainActivity
 import com.example.assignmentkakcho.R
 import com.example.assignmentkakcho.data.model.Category
 import com.example.assignmentkakcho.databinding.FragmentCategoryBinding
-import com.example.assignmentkakcho.databinding.FragmentGalleryBinding
-import com.example.assignmentkakcho.ui.gallery.GalleryViewModel
-import com.example.assignmentkakcho.ui.gallery.IconAdapter
 import com.example.assignmentkakcho.ui.gallery.IconLoadStateAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 
 private const val TAG = "categoryFragment"
 
@@ -88,19 +80,24 @@ class CategoryFragment : Fragment(), CategoryAdapter.OnItemClickListener {
                 }
             }
         }
+        setHasOptionsMenu(true)
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        inflater.inflate(R.menu.search_icon,menu)
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        if(item.itemId == R.id.icon_search){
-//            val action = CategoryFragmentDirections.actionCategoryFragmentToGalleryFragment(-1,"")
-//            findNavController().navigate(action)
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.search_icon,menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == R.id.icon_search){
+            (activity as MainActivity?)?.let {
+                it.supportActionBar?.setDisplayShowHomeEnabled(false)
+                it.supportActionBar?.title = ""
+            }
+            val action = CategoryFragmentDirections.actionCategoryFragmentToGalleryFragment(-1,"")
+            findNavController().navigate(action)
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     override fun onItemClick(category: Category) {
         val action =

@@ -30,8 +30,4 @@ class CategoryViewModel @Inject constructor(private val iconRepo: IconfinderRepo
     }
 
 
-//    fun getIconSets(category: String): LiveData<PagingData<IconSet>> {
-//        return iconRepo.getIconSets(category).cachedIn(viewModelScope)
-//    }
-
 }

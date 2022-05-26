@@ -29,13 +29,17 @@
     </fragment>
     <fragment
         android:id="@+id/galleryFragment"
-        android:name="com.example.assignmentkakcho.ui.gallery.GalleryFragment"
-        android:label="Gallery" >
+        android:name="com.example.assignmentkakcho.ui.gallery.GalleryFragment">
         <argument
             android:name="iconSetId"
             app:argType="integer" />
         <argument
             android:name="globalQuery"
             app:argType="string" />
+        <action
+            android:id="@+id/action_galleryFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment"
+            app:popUpTo="@id/categoryFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
