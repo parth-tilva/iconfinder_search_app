@@ -21,7 +21,7 @@
 
             <ImageView
                 android:id="@+id/img_view"
-                android:layout_width="150dp"
+                android:layout_width="match_parent"
                 android:layout_height="140dp"
                 android:layout_centerHorizontal="true"
                 android:padding="35dp"

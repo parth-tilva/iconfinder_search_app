@@ -4,4 +4,6 @@
     <string name="retry_error_message">Results could not be loaded</string>
     <string name="empty_response_error_message">No results found for this query</string>
     <string name="results_could_not_be_loaded">Results could not be loaded</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            >
+            <TextView
+                android:id="@+id/iconset_id"
+                android:textSize="16dp"
+                android:text="id: 23842934"
+                android:layout_width="0dp"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/tvAuthorName"
+                android:textSize="16dp"
+                android:text="Author: wahyakup"
+                android:layout_width="0dp"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iconset_id"
+                android:layout_height="wrap_content"/>
+
+
+            <TextView
+                android:id="@+id/tvIconsCount"
+                android:textSize="16dp"
+                android:text="count: 50"
+                android:layout_width="0dp"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvAuthorName"
+                android:layout_height="wrap_content"/>
+
+
+<!--            <ImageView-->
+<!--                android:id="@+id/img_view"-->
+<!--                android:layout_width="150dp"-->
+<!--                android:layout_height="140dp"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:padding="35dp"-->
+<!--                android:src="@drawable/ic_download"-->
+<!--                android:layout_marginBottom="10dp"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent" />-->
+
+<!--            <ImageView-->
+<!--                android:id="@+id/img_paid"-->
+<!--                android:visibility="gone"-->
+<!--                tools:visibility="visible"-->
+<!--                android:layout_width="28dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:scaleType="centerCrop"-->
+<!--                android:src="@drawable/tag"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
+
+
+<!--            <TextView-->
+<!--                android:id="@+id/txt_name"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_alignBottom="@id/img_view"-->
+<!--                android:layout_margin="8dp"-->
+<!--                android:maxLines="1"-->
+<!--                android:textSize="16sp"-->
+<!--                android:fontFamily="@font/lato_heavy"-->
+<!--                android:textColor="#000"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                tools:text="IconName" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/txt_price"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_alignBottom="@id/img_view"-->
+<!--                android:layout_margin="8dp"-->
+<!--                android:maxLines="1"-->
+<!--                android:fontFamily="@font/lato_heavy"-->
+<!--                android:textColor="#4CAF50"-->
+<!--                tools:visibility="visible"-->
+<!--                android:visibility="gone"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                tools:text="$2" />-->
+
+<!--            <ImageView-->
+<!--                android:id="@+id/img_download"-->
+<!--                android:layout_width="20dp"-->
+<!--                android:layout_height="20dp"-->
+<!--                android:layout_margin="8dp"-->
+<!--                android:visibility="gone"-->
+<!--                tools:visibility="visible"-->
+<!--                android:src="@drawable/ic_download"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent" />-->
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

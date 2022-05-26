@@ -1,18 +1,13 @@
 package com.example.assignmentkakcho.ui.gallery
 
 import android.Manifest
-import android.annotation.SuppressLint
-import android.app.DownloadManager
-import android.content.Context.DOWNLOAD_SERVICE
 import android.content.pm.PackageManager
-import android.database.Cursor
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -21,49 +16,69 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
+import com.example.assignmentkakcho.MainActivity
 import com.example.assignmentkakcho.R
-import com.example.assignmentkakcho.data.Icon
+import com.example.assignmentkakcho.data.model.Icon
 import com.example.assignmentkakcho.databinding.FragmentGalleryBinding
+import com.example.assignmentkakcho.ui.download.DownloadBottomSheet
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
-import java.io.File
+import kotlinx.coroutines.flow.collectLatest
 
+private const val TAG = "GalleryFragment"
 
 @AndroidEntryPoint
-class GalleryFragment : Fragment(R.layout.fragment_gallery),
-    IconAdapter.OnItemClickListener {
-
-    private val viewModel by viewModels<GalleryViewModel>()
-    var downloadID: Long = 0
+class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemClickListener {
+    private val viewModel: GalleryViewModel by activityViewModels()
+    private val args: GalleryFragmentArgs by navArgs()
 
     private var _binding: FragmentGalleryBinding? = null
     private val binding get() = _binding!!
 
     private var writePermissionGranted = false
+    private lateinit var searchView: SearchView
+    private lateinit var searchItem: MenuItem
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
 
+    override fun onCreate(savedInstanceState: Bundle?) {  // or on resume
+        super.onCreate(savedInstanceState)
+        val iconSetId = args.iconSetId
+        if(iconSetId!=-1){
+            (activity as MainActivity?)?.let {
+                it.supportActionBar?.setDisplayShowHomeEnabled(false)
+            }
+        }else{
+            (activity as MainActivity?)?.let {
+                it.supportActionBar?.setDisplayShowHomeEnabled(false)
+                it.supportActionBar?.title = ""
+            }
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        val iconSetId = args.iconSetId
         permissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) {
                 writePermissionGranted = it
             }
-        updateRequestPermission()
 
         super.onViewCreated(view, savedInstanceState)
+
+        updateRequestPermission()
 
         _binding = FragmentGalleryBinding.bind(view)
 
         val adapter = IconAdapter(this)
 
+
         binding.apply {
             recyclerView.setHasFixedSize(true)
+            recyclerView.itemAnimator = null
             recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
                 header = IconLoadStateAdapter { adapter.retry() },
                 footer = IconLoadStateAdapter { adapter.retry() }
@@ -71,11 +86,18 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
             btnRetry.setOnClickListener { adapter.retry() }
         }
 
-        viewModel.photos.observe(viewLifecycleOwner) {
-            adapter.submitData(viewLifecycleOwner.lifecycle, it)
+        if (iconSetId != -1) {
+            viewModel.getIconsInIconSet(iconSetId)
+            viewModel.iconList.observe(viewLifecycleOwner) {
+                adapter.submitData(viewLifecycleOwner.lifecycle, it)
+            }
+        } else {
+            setHasOptionsMenu(true)
+            Log.d(TAG, "searchresult: ${viewModel.searchResult.value}")
+            viewModel.searchResult.observe(viewLifecycleOwner) {
+                adapter.submitData(viewLifecycleOwner.lifecycle, it)
+            }
         }
-
-
         adapter.addLoadStateListener { loadState ->
             binding.apply {
                 progressBar.isVisible = loadState.source.refresh is LoadState.Loading
@@ -94,8 +116,19 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
                 }
             }
         }
+        downloadUpdates()
+    }
 
-        setHasOptionsMenu(true)
+    private fun downloadUpdates() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.sharedMsg.collectLatest {
+                Snackbar.make(
+                    binding.root,
+                    it,
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 
 
@@ -107,65 +140,19 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
 
         val minSDK29 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
         writePermissionGranted = hasWritePermission || minSDK29
+    }
+
+
+    private fun askPermission() {
         if (!writePermissionGranted) {
             permissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
     }
 
 
-    @SuppressLint("Range")
     private fun downloadImage(icon: Icon) {
-        Toast.makeText(context, "Downloading...", Toast.LENGTH_SHORT).show()
-        val downloadManager = context?.getSystemService(DOWNLOAD_SERVICE) as DownloadManager
-
-        val index = icon.raster_sizes.size - 1
-        val urlString = icon.raster_sizes[index].formats[0].preview_url
-        lateinit var request: DownloadManager.Request
-        try {
-            request = DownloadManager.Request(Uri.parse(urlString))
-                .setDescription("Downloading...")
-                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                .setAllowedOverMetered(true)
-                .setAllowedOverRoaming(false)
-                .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE or DownloadManager.Request.NETWORK_WIFI)
-                .setDestinationInExternalPublicDir(
-                    Environment.DIRECTORY_PICTURES,
-                    File.separator + icon.icon_id.toString() + "_" + icon.tags[0] + ".png"
-                )
-            downloadID = downloadManager.enqueue(request)
-
-        } catch (e: Exception) {
-            Toast.makeText(context, "error: $e", Toast.LENGTH_LONG).show()
-        }
-
-        val query = DownloadManager.Query().setFilterById(downloadID)
-        lifecycleScope.launchWhenStarted {
-            var lastMsg = ""
-            var downloading = true
-            while (downloading) {
-                val cursor: Cursor = downloadManager.query(query)
-                cursor.moveToFirst()
-                if (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)) == DownloadManager.STATUS_SUCCESSFUL) {
-                    downloading = false
-                }
-                val status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
-
-                val msg = when (status) {
-                    DownloadManager.STATUS_SUCCESSFUL -> "Download successful"
-                    DownloadManager.STATUS_FAILED -> "Download failed"
-                    else -> ""
-                }
-                delay(1000L)
-                Log.e("DownloadManager", " Status is :$msg")
-                if (msg != lastMsg) {
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
-                    }
-                    lastMsg = msg
-                }
-                cursor.close()
-            }
-        }
+        val bottomSheet = DownloadBottomSheet()
+        bottomSheet.show(parentFragmentManager, "xyz")
     }
 
 
@@ -173,13 +160,30 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
         super.onCreateOptionsMenu(menu, inflater)
 
         inflater.inflate(R.menu.serach_menu, menu)
-        val searchItem = menu.findItem(R.id.action_serach)
-        val searchView = searchItem.actionView as SearchView
+        searchItem = menu.findItem(R.id.action_serach)
+        searchView = searchItem.actionView as SearchView
+        if (viewModel.searchResult?.value == null) {
+            searchItem.expandActionView()
+            searchView.setQuery("", false)
+        }
+
+
+        searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                val action = GalleryFragmentDirections.actionGalleryFragmentToCategoryFragment()
+                findNavController().navigate(action)
+                return true
+            }
+        })
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
 
-                if (query != null) {
+                if (query != null && query != "") {
                     binding.recyclerView.scrollToPosition(0)
                     viewModel.searchPhotos(query)
                     searchView.clearFocus()
@@ -191,17 +195,30 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
                 return true
             }
         })
+
+    }
+
+    override fun onItemClick(icon: Icon) {
+//        val action = GalleryFragmentDirections.actionGalleryFragmentToCategoryFragment()
+//        findNavController().navigate(action)
     }
 
     override fun onDownloadClicked(icon: Icon) {
+        viewModel.currentIcon = icon
+
         if (writePermissionGranted) {
             downloadImage(icon)
         } else {
-            Toast.makeText(
-                requireContext(),
-                "Can't download photo allow permission from settings",
-                Toast.LENGTH_LONG
-            ).show()
+            askPermission()
+            if (writePermissionGranted) {
+                downloadImage(icon)
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Can't download photo allow permission from settings",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
 
@@ -209,4 +226,6 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
         super.onDestroyView()
         _binding = null
     }
+
+
 }

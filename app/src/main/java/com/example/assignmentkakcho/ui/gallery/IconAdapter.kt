@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.assignmentkakcho.R
-import com.example.assignmentkakcho.data.Icon
+import com.example.assignmentkakcho.data.model.Icon
 import com.example.assignmentkakcho.databinding.ItemIconBinding
 
 class IconAdapter(private val listener: OnItemClickListener) :
@@ -33,17 +33,16 @@ class IconAdapter(private val listener: OnItemClickListener) :
         RecyclerView.ViewHolder(binding.root) {
 
         init {
-
             binding.apply {
-//                root.setOnClickListener {
-//                    val position = bindingAdapterPosition
-//                    if (position != RecyclerView.NO_POSITION) {
-//                        val item = getItem(position)
-//                        if (item != null) {
-//                            listener.onItemClick(item)
-//                        }
-//                    }
-//                }
+                root.setOnClickListener {
+                    val position = bindingAdapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val item = getItem(position)
+                        if (item != null) {
+                            listener.onItemClick(item)
+                        }
+                    }
+                }
                 imgDownload.setOnClickListener {
                     val position = bindingAdapterPosition
                     if (position != RecyclerView.NO_POSITION) {
@@ -55,7 +54,6 @@ class IconAdapter(private val listener: OnItemClickListener) :
                 }
             }
         }
-
 
         fun bind(icon: Icon) {
             val tag = icon.tags.random()
@@ -97,7 +95,7 @@ class IconAdapter(private val listener: OnItemClickListener) :
     }
 
     interface OnItemClickListener {
-       // fun onItemClick(icon: Icon)
+        fun onItemClick(icon: Icon)
         fun onDownloadClicked(icon: Icon)
     }
 

@@ -1,9 +1,9 @@
 package com.example.assignmentkakcho.api
 
-import com.example.assignmentkakcho.data.Icon
+import com.example.assignmentkakcho.data.model.Icon
 
 
-data class ApiResponse(
+data class IconResponse(
     val icons: List<Icon>,
     val total_count: Int,
 )
