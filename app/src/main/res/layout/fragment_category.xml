@@ -20,6 +20,7 @@
             android:layout_margin="10dp"
             android:text="List of Categories"
             android:textSize="20sp"
+            android:fontFamily="@font/lato_regular"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"

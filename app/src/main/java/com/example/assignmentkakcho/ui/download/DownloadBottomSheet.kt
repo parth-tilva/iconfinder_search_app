@@ -15,15 +15,14 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class DownloadBottomSheet() : BottomSheetDialogFragment(), DownloadAdapter.OnItemClicked {
     private val galleryViewModel: GalleryViewModel by activityViewModels()
-    private var _binding: FragmentDownloadBottomSheetBinding? = null
-    private val binding = _binding!!
+    lateinit var binding: FragmentDownloadBottomSheetBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        _binding = FragmentDownloadBottomSheetBinding.inflate(inflater, container, false)
+        binding = FragmentDownloadBottomSheetBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -39,10 +38,5 @@ class DownloadBottomSheet() : BottomSheetDialogFragment(), DownloadAdapter.OnIte
             galleryViewModel.download(galleryViewModel.currentIcon, position)
             dismiss()
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 }

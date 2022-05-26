@@ -13,16 +13,6 @@
         android:layout_marginBottom="10dp"
         tools:context=".ui.gallery.GalleryFragment">
 
-<!--        <TextView-->
-<!--            android:id="@+id/iconset_id"-->
-<!--            android:text="id: 345334"-->
-<!--            android:textSize="20sp"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:layout_marginLeft="10dp"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            />-->
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
@@ -50,6 +40,7 @@
             android:layout_centerHorizontal="true"
             android:text="@string/results_could_not_be_loaded"
             android:visibility="gone"
+            android:fontFamily="@font/lato_regular"
             tools:visibility="visible" />
 
         <Button
@@ -59,6 +50,7 @@
             android:layout_centerInParent="true"
             android:text="@string/retry"
             android:visibility="gone"
+            android:fontFamily="@font/lato_regular"
             tools:visibility="visible" />
 
         <TextView
@@ -66,6 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:fontFamily="@font/lato_regular"
             android:text="@string/empty_response_error_message"
             android:visibility="gone"
             tools:visibility="visible" />

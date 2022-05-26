@@ -43,6 +43,13 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery), IconAdapter.OnItemC
     private lateinit var searchItem: MenuItem
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
 
+    override fun onStart() {
+        super.onStart()
+        (activity as MainActivity?)?.let{
+            it.supportActionBar?.title = "Gallery"
+            it.supportActionBar?.setDisplayShowHomeEnabled(false)
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

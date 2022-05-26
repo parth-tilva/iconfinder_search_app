@@ -1,5 +1,6 @@
 package com.example.assignmentkakcho.ui.iconSet
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,32 +20,31 @@ import com.example.assignmentkakcho.ui.gallery.IconLoadStateAdapter
 
 
 class IconSetFragment : Fragment(),  IconSetAdapter.OnItemClicked {
+    lateinit var binding: FragmentIconSetBinding
     private val categoryViewModel: CategoryViewModel by activityViewModels()
     private val args: IconSetFragmentArgs by navArgs()
     lateinit var category: String
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         (activity as MainActivity?)?.let{
             it.supportActionBar?.title = category
             it.supportActionBar?.setDisplayShowHomeEnabled(false)
         }
     }
 
-    private var _binding: FragmentIconSetBinding? = null
-    private val binding = _binding!!
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentIconSetBinding.inflate(inflater,container,false)
+        binding = FragmentIconSetBinding.inflate(inflater,container,false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val adapter = IconSetAdapter(this)
+        category = args.categoryIdentifier
         binding.rvIconSet.adapter = adapter
         binding.apply {
             rvIconSet.setHasFixedSize(true)
@@ -55,7 +55,6 @@ class IconSetFragment : Fragment(),  IconSetAdapter.OnItemClicked {
             btnRetry.setOnClickListener { adapter.retry() }
         }
 
-        category = args.categoryIdentifier
         categoryViewModel.getIconSets(category)
         categoryViewModel.iconSetList.observe(viewLifecycleOwner, Observer {
             adapter.submitData(viewLifecycleOwner.lifecycle,it)
@@ -86,4 +85,8 @@ class IconSetFragment : Fragment(),  IconSetAdapter.OnItemClicked {
         findNavController().navigate(action)
     }
 
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        _binding = null
+//    }
 }

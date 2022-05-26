@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.assignmentkakcho.R
 import com.example.assignmentkakcho.data.model.Category
 
 class CategoryAdapter(private val listener: OnItemClickListener) :
@@ -14,12 +15,12 @@ class CategoryAdapter(private val listener: OnItemClickListener) :
 
 
     class CategoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val tvName: TextView = view.findViewById(android.R.id.text1)
+        val tvName: TextView = view.findViewById(R.id.tvCategory)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(android.R.layout.simple_list_item_1, parent, false)
+            .inflate(R.layout.item_category, parent, false)
         return CategoryViewHolder(view)
     }
 

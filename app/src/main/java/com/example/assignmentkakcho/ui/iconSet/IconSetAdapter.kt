@@ -19,6 +19,8 @@ class IconSetAdapter(val listener: OnItemClicked) :
         private val tvId: TextView = view.findViewById(R.id.iconset_id)
         private val tvAuthName: TextView = view.findViewById(R.id.tvAuthorName)
         private val tvIconsCount: TextView = view.findViewById(R.id.tvIconsCount)
+        private val tvPremium: TextView = view.findViewById(R.id.tvPremium)
+
 
         init {
             view.setOnClickListener {
@@ -35,6 +37,11 @@ class IconSetAdapter(val listener: OnItemClicked) :
             tvId.text = "Id: " + iconSet.iconset_id.toString()
             tvAuthName.text = "Author: " + iconSet.author.name
             tvIconsCount.text = "Count: " + iconSet.icons_count.toString()
+            if(iconSet.is_premium){
+                tvPremium.text = "is_premium: true"
+            }else{
+                tvPremium.text = "is_premium: false"
+            }
         }
     }
 

@@ -34,7 +34,6 @@ class DownloadAdapter(val context: Context, val icon: Icon, val listener: OnItem
 
     override fun onBindViewHolder(holder: DownloadViewHolder, position: Int) {
         val item = list[position]
-        Log.d(TAG, "list: $list")
         val size = item.size.toString()
         val format = item.formats[0].format
         holder.tvQuality.text = "Size: $size ✖ $size "
