@@ -1,10 +1,9 @@
-# iconfinder_search_app
+# iconfinder-search-app
 ![HeaderImage](git_images/crop_header.png)
 
 ## Introduction
-The user can search Icon or select listed categories to find Icon, if icon is free user can download in different sizes. 
-I have use different Iconfinder APIs, Paging3 library for pagination, Retrofit for network calls, Hilt fo dependency injection,
-Glide for image processing.
+The user can search Icon or select listed categories to find Icon, if the icon is free user can download it in different sizes.
+I have used different Iconfinder APIs, Paging3 library for pagination, Retrofit for network calls, Hilt for dependency injection, and Glide for image processing.
 
 ## Technologies & Architecture 
 
