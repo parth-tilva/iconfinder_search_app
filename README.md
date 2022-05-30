@@ -9,6 +9,9 @@ I have used different Iconfinder APIs, Paging3 library for pagination, Retrofit 
 #### Technologies
 Android, Kotlin
 
+### Architecture 
+Model-View-ViewModel (MVVM)
+
 #### Architecture Components
 [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel), [LiveData](https://developer.android.com/topic/libraries/architecture/livedata), 
 [Navigation](https://developer.android.com/guide/navigation/),[Paging](https://developer.android.com/topic/libraries/architecture/paging/v3-overview)
