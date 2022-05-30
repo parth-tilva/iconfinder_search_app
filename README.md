@@ -1,4 +1,4 @@
-# Iconfinder-Search-App
+# Icon-Search-App
 
 ## Introduction
 The user can search Icon or select listed categories to find Icon, if the icon is free user can download it in different sizes.
