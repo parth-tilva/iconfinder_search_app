@@ -1,5 +1,4 @@
 # iconfinder-search-app
-![HeaderImage](git_images/crop_header.png)
 
 ## Introduction
 The user can search Icon or select listed categories to find Icon, if the icon is free user can download it in different sizes.
@@ -35,14 +34,14 @@ Android, Kotlin
 ### Categories | IconSets | Icons
 
 <p align = "left" >
-  <img width="250" height="500" src="iconfinder_images/categories.jpg" > <img >  <img > <img >
-  <img width="250" height="500"  src="iconfinder_images/icon_sets.jpg">  <img > <img > <img >
-  <img width="250" height="500" src="iconfinder_images/gallery.jpg" >  <img > <img > <img >
+  <img width="250" height="500" src="iconfinder_images/categories.jpeg" > <img >  <img > <img >
+  <img width="250" height="500"  src="iconfinder_images/icon_sets.jpeg">  <img > <img > <img >
+  <img width="250" height="500" src="iconfinder_images/gallery.jpeg" >  <img > <img > <img >
 </p>
 
 ### Download Bottom Sheet | Search 
 
 <p align = "left" >
-  <img width="250" height="500" src="iconfinder_images/download_bottom_sheet.jpg" > <img >  <img > <img >
-  <img width="250" height="500"  src="iconfinder_images/search.jpg">  <img > <img > <img >
+  <img width="250" height="500" src="iconfinder_images/download_bottom_sheet.jpeg" > <img >  <img > <img >
+  <img width="250" height="500"  src="iconfinder_images/search.jpeg">  <img > <img > <img >
 </p>
